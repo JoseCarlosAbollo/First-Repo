@@ -92,13 +92,11 @@ func _physics_process(delta):
 	
 	# Handle animations
 	if direction < 0:
-		sprite.flip_h = true
 		if !isCrouching: 
-			sprite.play("run")
+			sprite.play("runLeft")
 	elif direction > 0:
-		sprite.flip_h = false
 		if !isCrouching: 
-			sprite.play("run")
+			sprite.play("runRight")
 	elif isCrouching:
 		sprite.play("crouching")
 	else:
