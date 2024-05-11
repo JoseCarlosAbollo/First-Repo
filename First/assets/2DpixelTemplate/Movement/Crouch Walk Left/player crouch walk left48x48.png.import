@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://di6rdkgdct1ou"
-path="res://.godot/imported/player jump 48x48.png-e5ed6ac5b3397e3a457e342e9ca64112.ctex"
+uid="uid://b7pxf7d0lbhic"
+path="res://.godot/imported/player crouch walk left48x48.png-9cb304a688d5677e6c51a6df20e2949e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/2DpixelTemplate/Movement/Jump Left/player jump 48x48.png"
-dest_files=["res://.godot/imported/player jump 48x48.png-e5ed6ac5b3397e3a457e342e9ca64112.ctex"]
+source_file="res://assets/2DpixelTemplate/Movement/Crouch Walk Left/player crouch walk left48x48.png"
+dest_files=["res://.godot/imported/player crouch walk left48x48.png-9cb304a688d5677e6c51a6df20e2949e.ctex"]
 
 [params]
 

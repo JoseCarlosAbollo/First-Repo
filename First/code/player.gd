@@ -1,13 +1,14 @@
 extends CharacterBody2D
 
-@onready var sprite = $AnimatedSprite2D
+@onready var animated_sprite = $AnimatedSprite2D
+
 const SPEED = 200.0
 const JUMP_VELOCITY = -300.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var GRAVITY = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var direction = 0.0
-var isPointingLeft = true
+var isPointingLeft = false
 var isCrouching = false
 var crouchSpeed = 1.0
 var currentSprite = ""
@@ -84,38 +85,35 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _process(delta):
-	handleSprites();
+	handleSprites()
 
 func handleSprites():
 	if direction < 0.0: # moves left
 		if isCrouching: 
-			sprite.play("idleCrouchingLeft") # TODO crouching left
+			animated_sprite.play("crouchingLeft")
 		else:
-			sprite.play("runLeft")
+			animated_sprite.play("runLeft")
 	elif direction > 0.0: # moves right
 		if isCrouching: 
-			sprite.play("idleCrouchingRight") # TODO crouching right
+			animated_sprite.play("crouchingRight")
 		else:
-			sprite.play("runRight")
+			animated_sprite.play("runRight")
 	else: # doesnt move
 		if isCrouching: # idle crouch
 			currentSprite = "idleCrouchingLeft" if isPointingLeft else "idleCrouchingRight"
-			sprite.play(currentSprite)
+			animated_sprite.play(currentSprite)
 		else:
 			if lookAtTimer > 0.0 and Input.is_action_pressed("wake"): # look up
-				sprite.play("lookUp") # TODO look up lef-right
+				animated_sprite.play("lookUp") # TODO look up lef-right
 			elif lookAtTimer > 0.2 and Input.is_action_pressed("crouch"): # look down
-				sprite.play("lookDown") # TODO look down lef-right
+				animated_sprite.play("lookDown") # TODO look down lef-right
 			else: # does nothing
 				currentSprite = "idleLeft" if isPointingLeft else "idleRight"
-				sprite.play(currentSprite)
+				animated_sprite.play(currentSprite)
 	# being on air is on top of all so overwrite sprite if...
-	# TODO _process is not getting the actual physics values
 	if velocity.y < 0.0: # is jumping or..
 		currentSprite = "jumpingLeft" if isPointingLeft else "jumpingRight"
-		sprite.play(currentSprite)
-		log(isPointingLeft)
+		animated_sprite.play(currentSprite)
 	elif velocity.y > 0.0: # is falling
 		currentSprite = "fallingLeft" if isPointingLeft else "fallingRight"
-		sprite.play(currentSprite)
-		log(isPointingLeft)
+		animated_sprite.play(currentSprite)
