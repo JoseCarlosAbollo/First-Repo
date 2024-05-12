@@ -1,5 +1,11 @@
 extends CharacterBody2D
 
+ #TODO LIST:
+	#Change crouching input?
+	#Use MACROS for animated_sprite's animations names
+	#look down lef-right animations
+	#state machine
+
 @onready var animated_sprite = $AnimatedSprite2D
 
 const SPEED = 200.0
@@ -18,8 +24,8 @@ var lookAtTimer = 0.0
 var lookAtMaxTime = 0.2
 var cameraMaxPan = 64
 var panSpeed = 0.08
-var panCameraUp = false
-var panCameraDown = false
+var isLookingUp = false
+var isLookingDown = false
 
 func stopCrouching():
 	isCrouching = false
@@ -42,27 +48,28 @@ func _physics_process(delta):
 		stopCrouching()
 	#Handle lookAt
 	if Input.is_action_pressed("wake"):
+		
 		if lookAtTimer > lookAtMaxTime:
-			panCameraUp = true
+			isLookingUp = true
 		else: 
 			lookAtTimer += delta
 	if Input.is_action_pressed("crouch"):
 		if lookAtTimer > lookAtMaxTime:
-			panCameraDown = true
+			isLookingDown = true
 		else: 
 			lookAtTimer += delta
 	if Input.is_action_just_released("wake"):
 		lookAtTimer = 0
-		panCameraUp = false
+		isLookingUp = false
 	if Input.is_action_just_released("crouch"):
 		if lookAtTimer < 0.2 :
 			isCrouching = true
 			crouchSpeed = 0.5
 		lookAtTimer = 0
-		panCameraDown = false
-	if panCameraUp :
+		isLookingDown = false
+	if isLookingUp :
 		camera_2d.offset.y = lerp(camera_2d.offset.y, -1.0 * cameraMaxPan, panSpeed)
-	elif panCameraDown :
+	elif isLookingDown :
 		camera_2d.offset.y = lerp(camera_2d.offset.y, 1.0 * cameraMaxPan, panSpeed)
 	else : 
 		if camera_2d.offset.y >= 1 :
@@ -103,10 +110,14 @@ func handleSprites():
 			currentSprite = "idleCrouchingLeft" if isPointingLeft else "idleCrouchingRight"
 			animated_sprite.play(currentSprite)
 		else:
-			if lookAtTimer > 0.0 and Input.is_action_pressed("wake"): # look up
-				animated_sprite.play("lookUp") # TODO look up lef-right
-			elif lookAtTimer > 0.2 and Input.is_action_pressed("crouch"): # look down
-				animated_sprite.play("lookDown") # TODO look down lef-right
+			if isLookingUp: # look up
+				if animated_sprite.get_animation() != "lookUpRight" and animated_sprite.get_animation() != "lookUpLeft":
+					currentSprite = "lookUpLeft" if isPointingLeft else "lookUpRight"
+					animated_sprite.play(currentSprite)
+			elif isLookingDown: # look down
+				if animated_sprite.get_animation() != "lookDownRight" and animated_sprite.get_animation() != "lookDownLeft":
+					currentSprite = "lookDownLeft" if isPointingLeft else "lookDownRight"
+					animated_sprite.play(currentSprite) # TODO
 			else: # does nothing
 				currentSprite = "idleLeft" if isPointingLeft else "idleRight"
 				animated_sprite.play(currentSprite)
