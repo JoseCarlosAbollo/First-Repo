@@ -1,15 +1,27 @@
 extends CharacterBody2D
 
- #TODO LIST:
-	#Change crouching input?
-	#Use MACROS for animated_sprite's animations names
-	#look down lef-right animations
-	#state machine
-
 @onready var animated_sprite = $AnimatedSprite2D
 
 const SPEED = 200.0
 const JUMP_VELOCITY = -300.0
+# consts for animated sprite's animations
+const IDLE_RIGHT = "idleRight"
+const IDLE_LEFT = "idleLeft"
+const LOOK_DOWN_RIGHT = "lookDownRight"
+const LOOK_DOWN_LEFT = "lookDownLeft"
+const LOOK_UP_RIGHT = "lookUpRight"
+const LOOK_UP_LEFT = "lookUpLeft"
+const IDLE_CROUCHING_RIGHT = "idleCrouchingRight"
+const IDLE_CROUCHING_LEFT = "idleCrouchingLeft"
+const RUN_RIGHT = "runRight"
+const RUN_LEFT = "runLeft"
+const CROUCHING_RIGHT = "crouchingRight"
+const CROUCHING_LEFT = "crouchingLeft"
+const JUMPING_RIGHT = "jumpingRight"
+const JUMPING_LEFT = "jumpingLeft"
+const FALLING_RIGHT = "fallingRight"
+const FALLING_LEFT = "fallingLeft"
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var GRAVITY = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -97,34 +109,34 @@ func _process(delta):
 func handleSprites():
 	if direction < 0.0: # moves left
 		if isCrouching: 
-			animated_sprite.play("crouchingLeft")
+			animated_sprite.play(CROUCHING_LEFT)
 		else:
-			animated_sprite.play("runLeft")
+			animated_sprite.play(RUN_LEFT)
 	elif direction > 0.0: # moves right
 		if isCrouching: 
-			animated_sprite.play("crouchingRight")
+			animated_sprite.play(CROUCHING_RIGHT)
 		else:
-			animated_sprite.play("runRight")
+			animated_sprite.play(RUN_RIGHT)
 	else: # doesnt move
 		if isCrouching: # idle crouch
-			currentSprite = "idleCrouchingLeft" if isPointingLeft else "idleCrouchingRight"
+			currentSprite = IDLE_CROUCHING_LEFT if isPointingLeft else IDLE_CROUCHING_RIGHT
 			animated_sprite.play(currentSprite)
 		else:
 			if isLookingUp: # look up
-				if animated_sprite.get_animation() != "lookUpRight" and animated_sprite.get_animation() != "lookUpLeft":
-					currentSprite = "lookUpLeft" if isPointingLeft else "lookUpRight"
+				if animated_sprite.get_animation() != LOOK_DOWN_RIGHT and animated_sprite.get_animation() != LOOK_DOWN_LEFT:
+					currentSprite = LOOK_UP_LEFT if isPointingLeft else LOOK_UP_RIGHT
 					animated_sprite.play(currentSprite)
 			elif isLookingDown: # look down
-				if animated_sprite.get_animation() != "lookDownRight" and animated_sprite.get_animation() != "lookDownLeft":
-					currentSprite = "lookDownLeft" if isPointingLeft else "lookDownRight"
-					animated_sprite.play(currentSprite) # TODO
+				if animated_sprite.get_animation() != LOOK_DOWN_RIGHT and animated_sprite.get_animation() != LOOK_DOWN_LEFT:
+					currentSprite = LOOK_DOWN_LEFT if isPointingLeft else LOOK_DOWN_RIGHT
+					animated_sprite.play(currentSprite)
 			else: # does nothing
-				currentSprite = "idleLeft" if isPointingLeft else "idleRight"
+				currentSprite = IDLE_LEFT if isPointingLeft else IDLE_RIGHT
 				animated_sprite.play(currentSprite)
 	# being on air is on top of all so overwrite sprite if...
 	if velocity.y < 0.0: # is jumping or..
-		currentSprite = "jumpingLeft" if isPointingLeft else "jumpingRight"
+		currentSprite = JUMPING_LEFT if isPointingLeft else JUMPING_RIGHT
 		animated_sprite.play(currentSprite)
 	elif velocity.y > 0.0: # is falling
-		currentSprite = "fallingLeft" if isPointingLeft else "fallingRight"
+		currentSprite = FALLING_LEFT if isPointingLeft else FALLING_RIGHT
 		animated_sprite.play(currentSprite)
