@@ -1,7 +1,6 @@
-[gd_scene load_steps=108 format=3 uid="uid://drtjd8udiymjj"]
+[gd_scene load_steps=116 format=3 uid="uid://drtjd8udiymjj"]
 
 [ext_resource type="Script" path="res://code/player.gd" id="1_t5i0y"]
-[ext_resource type="Texture2D" uid="uid://uvh0ey15qmsx" path="res://assets/sprites1/Main Characters/Mask Dude/Crouch (32x32).png" id="2_3hnkx"]
 [ext_resource type="Texture2D" uid="uid://b7pxf7d0lbhic" path="res://assets/2DpixelTemplate/Movement/Crouch Walk Left/player crouch walk left48x48.png" id="2_t0hln"]
 [ext_resource type="Texture2D" uid="uid://cdup83kpt7oql" path="res://assets/2DpixelTemplate/Movement/Jump Left/player jump left48x48.png" id="2_totef"]
 [ext_resource type="Texture2D" uid="uid://d283uo7bg7jsw" path="res://assets/2DpixelTemplate/Movement/Jump Right/player jump right48x48.png" id="3_p5njj"]
@@ -12,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://d1f5ty0es3mi7" path="res://assets/2DpixelTemplate/Movement/Idle Right/Player Idle right48x48.png" id="7_mbq3e"]
 [ext_resource type="Texture2D" uid="uid://cdaqap5bd284w" path="res://assets/2DpixelTemplate/Movement/Run Left/player run left48x48.png" id="9_mx3sa"]
 [ext_resource type="Texture2D" uid="uid://tcasaw5660ag" path="res://assets/2DpixelTemplate/Movement/Run Right/player run right48x48.png" id="10_4uryj"]
+[ext_resource type="Texture2D" uid="uid://c6278hspll4rm" path="res://assets/2DpixelTemplate/Movement/Look down Left/Look down left48x48.png" id="10_jcon1"]
+[ext_resource type="Texture2D" uid="uid://dx517rn1yfsj0" path="res://assets/2DpixelTemplate/Movement/Look down Right/Look down right48x48.png" id="11_6tf3n"]
 [ext_resource type="Texture2D" uid="uid://jics34rlwmlu" path="res://assets/2DpixelTemplate/Movement/Look up Left/Look up left48x48.png" id="11_mkybn"]
 [ext_resource type="Texture2D" uid="uid://bs0qkf6bdt2df" path="res://assets/2DpixelTemplate/Movement/Look up Right/Look up right48x48.png" id="12_52hlb"]
 
@@ -279,9 +280,37 @@ region = Rect2(0, 0, 48, 48)
 atlas = ExtResource("3_p5njj")
 region = Rect2(0, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_m70sf"]
-atlas = ExtResource("2_3hnkx")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ur56i"]
+atlas = ExtResource("10_jcon1")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g0w0s"]
+atlas = ExtResource("10_jcon1")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rypa3"]
+atlas = ExtResource("10_jcon1")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwi4k"]
+atlas = ExtResource("10_jcon1")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ulx1l"]
+atlas = ExtResource("11_6tf3n")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jphh"]
+atlas = ExtResource("11_6tf3n")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ms3gv"]
+atlas = ExtResource("11_6tf3n")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3kcff"]
+atlas = ExtResource("11_6tf3n")
+region = Rect2(144, 0, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bqwa3"]
 atlas = ExtResource("11_mkybn")
@@ -636,10 +665,36 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_m70sf")
+"texture": SubResource("AtlasTexture_ur56i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g0w0s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rypa3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pwi4k")
 }],
-"loop": true,
-"name": &"lookDown",
+"loop": false,
+"name": &"lookDownLeft",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ulx1l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jphh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ms3gv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3kcff")
+}],
+"loop": false,
+"name": &"lookDownRight",
 "speed": 10.0
 }, {
 "frames": [{
@@ -748,7 +803,7 @@ script = ExtResource("1_t5i0y")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_h3am3")
-animation = &"idleRight"
+animation = &"lookDownLeft"
 autoplay = "idleRight"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
