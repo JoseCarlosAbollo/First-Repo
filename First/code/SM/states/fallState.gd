@@ -16,7 +16,7 @@ func process_input(event: InputEvent) -> State:
 	return null
 
 func process_physics(delta) -> State:
-	parent.velocity.y += gravity * delta
+	parent.velocity.y += 2 * gravity * delta
 	player_move()
 	if parent.is_on_floor():
 		return idle_state

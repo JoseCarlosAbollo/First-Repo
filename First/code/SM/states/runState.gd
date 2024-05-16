@@ -2,6 +2,7 @@ extends State
 # First export any states that have a transition to/from the new state
 @export var idle_state: State
 @export var jump_state: State
+@export var fall_state: State
 
 func enter():
 	super()
@@ -16,6 +17,8 @@ func process_physics(delta) -> State:
 	player_move()
 	if direction == 0:
 		return idle_state
+	if !parent.is_on_floor():
+		return fall_state
 	return null
 
 func process_frame(delta) -> State:

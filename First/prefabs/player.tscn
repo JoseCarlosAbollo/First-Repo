@@ -819,17 +819,19 @@ shape = SubResource("CapsuleShape2D_33ew0")
 script = ExtResource("16_meiqt")
 starting_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("run_state", "jump_state")]
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("run_state", "jump_state", "fall_state")]
 script = ExtResource("17_gbcv4")
 run_state = NodePath("../Run")
 jump_state = NodePath("../Jump")
+fall_state = NodePath("../Fall")
 animation_name_left = "idleLeft"
 animation_name_right = "idleRight"
 
-[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state")]
+[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state", "fall_state")]
 script = ExtResource("18_abish")
 idle_state = NodePath("../Idle")
 jump_state = NodePath("../Jump")
+fall_state = NodePath("../Fall")
 animation_name_left = "runLeft"
 animation_name_right = "runRight"
 

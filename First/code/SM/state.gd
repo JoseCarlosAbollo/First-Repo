@@ -4,11 +4,10 @@ extends Node
 var parent: PlayerClass
 @export var animation_name_left: String
 @export var animation_name_right: String
-@export var move_speed: float = 200
-@export var jump_speed: float = -300
-@export var crouchSpeed = 1.0
-@export var lookAtMaxTime = 0.2
-@export var cameraMaxPan = 64
+static var move_speed: float = 200
+static var crouchSpeed = 1.0
+static var lookAtMaxTime = 0.2
+static var cameraMaxPan = 64
 static var direction = 0.0
 static var isPointingLeft = false
 static var isCrouching = false
@@ -40,7 +39,7 @@ func player_move() -> void:
 	direction = Input.get_axis("left","right") * move_speed
 	parent.velocity.x = direction
 	parent.move_and_slide()
-func is_input_left(event: InputEvent) -> bool:
-	return event.is_action("left") or Input.is_action_just_pressed("left") or (Input.is_action_pressed("left") and Input.is_action_just_released("right"))
-func is_input_right(event: InputEvent) -> bool:
-	return event.is_action("right") or Input.is_action_just_pressed("right") or (Input.is_action_pressed("right") and Input.is_action_just_released("left"))
+func is_input_left() -> bool:
+	return Input.is_action_just_pressed("left") or (Input.is_action_pressed("left") and !Input.is_action_pressed("right"))
+func is_input_right() -> bool:
+	return Input.is_action_just_pressed("right") or (Input.is_action_pressed("right") and !Input.is_action_pressed("left"))
