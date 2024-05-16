@@ -832,6 +832,11 @@ idle_state = NodePath("../Idle")
 jump_state = NodePath("../Jump")
 animation_name_left = "runLeft"
 animation_name_right = "runRight"
+move_speed = null
+jump_speed = null
+crouchSpeed = null
+lookAtMaxTime = null
+cameraMaxPan = null
 
 [node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state")]
 script = ExtResource("19_omwp3")

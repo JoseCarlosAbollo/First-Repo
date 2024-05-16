@@ -1,6 +1,5 @@
-[gd_scene load_steps=121 format=3 uid="uid://drtjd8udiymjj"]
+[gd_scene load_steps=119 format=3 uid="uid://drtjd8udiymjj"]
 
-[ext_resource type="Script" path="res://code/playerWithSM.gd" id="1_0e65q"]
 [ext_resource type="Texture2D" uid="uid://b7pxf7d0lbhic" path="res://assets/2DpixelTemplate/Movement/Crouch Walk Left/player crouch walk left48x48.png" id="2_t0hln"]
 [ext_resource type="Texture2D" uid="uid://cdup83kpt7oql" path="res://assets/2DpixelTemplate/Movement/Jump Left/player jump left48x48.png" id="2_totef"]
 [ext_resource type="Texture2D" uid="uid://d283uo7bg7jsw" path="res://assets/2DpixelTemplate/Movement/Jump Right/player jump right48x48.png" id="3_p5njj"]
@@ -18,8 +17,27 @@
 [ext_resource type="Script" path="res://code/SM/stateMachine.gd" id="16_meiqt"]
 [ext_resource type="Script" path="res://code/SM/states/idleState.gd" id="17_gbcv4"]
 [ext_resource type="Script" path="res://code/SM/states/runState.gd" id="18_abish"]
-[ext_resource type="Script" path="res://code/SM/states/jumpState.gd" id="19_omwp3"]
-[ext_resource type="Script" path="res://code/SM/states/fallState.gd" id="20_aulik"]
+
+[sub_resource type="GDScript" id="GDScript_krek6"]
+script/source = "class_name Player_class
+extends CharacterBody2D
+
+@onready var animated_sprite = $AnimatedSprite2D
+@onready var state_machine = $StateMachine
+@onready var camera_2d = $Camera2D
+
+func _ready():
+	state_machine.init(self)
+
+func _unhandled_input(event):
+	state_machine.process_input(event)
+
+func _physics_process(delta):
+	state_machine.process_physics(delta)
+
+func _process(delta):
+	state_machine.process_frame(delta)
+"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ciwex"]
 atlas = ExtResource("2_t0hln")
@@ -498,7 +516,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_br4mv")
 }],
 "loop": false,
-"name": &"fallLeft",
+"name": &"fallingLeft",
 "speed": 10.0
 }, {
 "frames": [{
@@ -509,7 +527,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_hjt00")
 }],
 "loop": false,
-"name": &"fallRight",
+"name": &"fallingRight",
 "speed": 10.0
 }, {
 "frames": [{
@@ -657,7 +675,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_jfc0g")
 }],
 "loop": false,
-"name": &"jumpLeft",
+"name": &"jumpingLeft",
 "speed": 10.0
 }, {
 "frames": [{
@@ -665,7 +683,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_rby5t")
 }],
 "loop": false,
-"name": &"jumpRight",
+"name": &"jumpingRight",
 "speed": 10.0
 }, {
 "frames": [{
@@ -803,12 +821,12 @@ height = 23.3333
 z_index = 5
 scale = Vector2(3, 3)
 collision_layer = 2
-script = ExtResource("1_0e65q")
+script = SubResource("GDScript_krek6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_h3am3")
-animation = &"fallRight"
+animation = &"runLeft"
 autoplay = "idleRight"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -819,28 +837,12 @@ shape = SubResource("CapsuleShape2D_33ew0")
 script = ExtResource("16_meiqt")
 starting_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("run_state", "jump_state")]
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("run_state")]
 script = ExtResource("17_gbcv4")
 run_state = NodePath("../Run")
-jump_state = NodePath("../Jump")
 animation_name_left = "idleLeft"
 animation_name_right = "idleRight"
 
-[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state")]
+[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
 script = ExtResource("18_abish")
 idle_state = NodePath("../Idle")
-jump_state = NodePath("../Jump")
-animation_name_left = "runLeft"
-animation_name_right = "runRight"
-
-[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state")]
-script = ExtResource("19_omwp3")
-fall_state = NodePath("../Fall")
-animation_name_left = "jumpLeft"
-animation_name_right = "jumpRight"
-
-[node name="Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
-script = ExtResource("20_aulik")
-idle_state = NodePath("../Idle")
-animation_name_left = "fallLeft"
-animation_name_right = "fallRight"
