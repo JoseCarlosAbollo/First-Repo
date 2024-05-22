@@ -9,26 +9,24 @@ var max_holding_time : float = 0.5
 func enter():
 	super()
 	parent.velocity.y = jump_speed
-	player_move()
+	player_move(0)
 
 func process_input(event: InputEvent) -> State:
 	return null
 
 func process_physics(delta) -> State:
 	if hold_timer < max_holding_time:
-		if Input.is_action_just_released("jump"):
+		if Input.is_action_just_released("jumpInput"):
 			parent.velocity.y *= 0.1
 		else:
 			parent.velocity.y += -1
-	parent.velocity.y += gravity * delta
+	player_move(delta)
 	if parent.velocity.y >= 0:
 		return fall_state
-	player_move()
 	return null
 
 func process_frame(delta) -> State:
 	hold_timer += delta
-	print(hold_timer)
 	return null
 
 func exit():

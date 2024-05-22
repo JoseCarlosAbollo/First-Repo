@@ -16,3 +16,6 @@ func _physics_process(delta):
 
 func _process(delta):
 	state_machine.process_frame(delta)
+
+func _on_animated_sprite_2d_animation_finished():
+	state_machine.finish_animation_signal()

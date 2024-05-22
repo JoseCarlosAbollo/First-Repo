@@ -1,26 +1,32 @@
 extends State
-# First export any states that have a transition to/from the new state
+# Export any states that have a transition to/from the new state
 @export var idle_state: State
 @export var jump_state: State
-@export var fall_state: State
 @export var crouch_state: State
+@export var fall_state: State
 
 func enter():
 	super()
+	# Add the code for ENTER function in the new State
 
 func process_input(event: InputEvent) -> State:
-	if Input.is_action_just_pressed("jumpInput"):
+	if Input.is_action_just_pressed("jump"):
 		return jump_state
 	if Input.is_action_just_pressed("crouchInput"):
-		return crouch_state
+		return idle_state
 	return null
 
 func process_physics(delta) -> State:
-	player_move(delta)
-	if direction == 0:
-		return idle_state
-	if !parent.is_on_floor():
+	if parent.is_on_floor():
+		if is_input_left():
+			isPointingLeft = true
+			return crouch_state
+		elif is_input_right():
+			isPointingLeft = false
+			return crouch_state
+	else:
 		return fall_state
+	player_move(delta)
 	return null
 
 func process_frame(delta) -> State:
@@ -29,3 +35,4 @@ func process_frame(delta) -> State:
 
 func exit():
 	pass
+

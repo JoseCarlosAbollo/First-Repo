@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://f4ph66rrjx4a"
-path="res://.godot/imported/player land 48x48.png-6b0c1f5ac1dd4545c4eca51343ac0081.ctex"
+uid="uid://t2d74qwb5tx3"
+path="res://.godot/imported/player land left48x48.png-d7f5c05d3f7f07f804196af147e00ebc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/2DpixelTemplate/Movement/Land/player land 48x48.png"
-dest_files=["res://.godot/imported/player land 48x48.png-6b0c1f5ac1dd4545c4eca51343ac0081.ctex"]
+source_file="res://assets/2DpixelTemplate/Movement/Land Left/player land left48x48.png"
+dest_files=["res://.godot/imported/player land left48x48.png-d7f5c05d3f7f07f804196af147e00ebc.ctex"]
 
 [params]
 

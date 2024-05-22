@@ -17,10 +17,10 @@ const RUN_RIGHT = "runRight"
 const RUN_LEFT = "runLeft"
 const CROUCHING_RIGHT = "crouchingRight"
 const CROUCHING_LEFT = "crouchingLeft"
-const JUMPING_RIGHT = "jumpingRight"
-const JUMPING_LEFT = "jumpingLeft"
-const FALLING_RIGHT = "fallingRight"
-const FALLING_LEFT = "fallingLeft"
+const JUMPING_RIGHT = "jumpRight"
+const JUMPING_LEFT = "jumLeft"
+const FALLING_RIGHT = "fallRight"
+const FALLING_LEFT = "fallLeft"
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var GRAVITY = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -48,32 +48,32 @@ func _physics_process(delta):
 		velocity.y += GRAVITY * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if Input.is_action_just_pressed("jumpInput") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		stopCrouching()
 	# Handle crouch.
-	#if Input.is_action_just_pressed("crouch") and is_on_floor():
+	#if Input.is_action_just_pressed("crouchInput") and is_on_floor():
 		#isCrouching = true
 		#crouchSpeed = 0.5
 	# Handle up.
-	if Input.is_action_just_pressed("wake") and isCrouching:
+	if Input.is_action_just_pressed("upInput") and isCrouching:
 		stopCrouching()
 	#Handle lookAt
-	if Input.is_action_pressed("wake"):
+	if Input.is_action_pressed("upInput"):
 		
 		if lookAtTimer > lookAtMaxTime:
 			isLookingUp = true
 		else: 
 			lookAtTimer += delta
-	if Input.is_action_pressed("crouch"):
+	if Input.is_action_pressed("crouchInput"):
 		if lookAtTimer > lookAtMaxTime:
 			isLookingDown = true
 		else: 
 			lookAtTimer += delta
-	if Input.is_action_just_released("wake"):
+	if Input.is_action_just_released("upInput"):
 		lookAtTimer = 0
 		isLookingUp = false
-	if Input.is_action_just_released("crouch"):
+	if Input.is_action_just_released("crouchInput"):
 		if lookAtTimer < 0.2 :
 			isCrouching = true
 			crouchSpeed = 0.5
@@ -89,7 +89,7 @@ func _physics_process(delta):
 		elif camera_2d.offset.y <= -1 :
 			camera_2d.offset.y = lerp(camera_2d.offset.y, 0.0, panSpeed * 2)
 	# Get the input direction and handle the movement/deceleration.
-	direction = Input.get_axis("left", "right")
+	direction = Input.get_axis("leftInput", "rightInput")
 	if direction < 0.0: # moves left
 		isPointingLeft = true
 	elif direction > 0.0: # moves right

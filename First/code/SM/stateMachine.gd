@@ -29,3 +29,7 @@ func process_frame(delta: float):
 	if new_state:
 		change_state(new_state)
 
+func finish_animation_signal():
+	var new_state = current_state.finish_animation_signal()
+	if new_state:
+		change_state(new_state)
