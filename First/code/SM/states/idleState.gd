@@ -32,5 +32,5 @@ func process_physics(delta: float) -> State:
 func process_frame(delta: float) -> State:
 	return null
 
-func exit() -> void:
+func exit(next_state) -> void:
 	pass

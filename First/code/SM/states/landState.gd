@@ -29,7 +29,7 @@ func process_physics(delta) -> State:
 func process_frame(delta) -> State:
 	return null
 
-func exit():
+func exit(next_state):
 	pass
 
 func finish_animation_signal() -> State:

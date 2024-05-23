@@ -1,4 +1,4 @@
-[gd_scene load_steps=136 format=3 uid="uid://drtjd8udiymjj"]
+[gd_scene load_steps=138 format=3 uid="uid://drtjd8udiymjj"]
 
 [ext_resource type="Script" path="res://code/playerWithSM.gd" id="1_0e65q"]
 [ext_resource type="Texture2D" uid="uid://b7pxf7d0lbhic" path="res://assets/2DpixelTemplate/Movement/Crouch Walk Left/player crouch walk left48x48.png" id="2_t0hln"]
@@ -884,6 +884,12 @@ animations = [{
 radius = 6.66667
 height = 23.3333
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s8o2b"]
+size = Vector2(28, 25.3333)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j4grn"]
+size = Vector2(13.3333, 10.6667)
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
 scale = Vector2(3, 3)
@@ -893,12 +899,26 @@ script = ExtResource("1_0e65q")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_h3am3")
-animation = &"fallLeft"
+animation = &"idleRight"
 autoplay = "idleRight"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -12)
+[node name="CollisionShapeStanding" type="CollisionShape2D" parent="."]
+position = Vector2(0, -11.6667)
 shape = SubResource("CapsuleShape2D_33ew0")
+
+[node name="CollisionShapeCrouching" type="CollisionShape2D" parent="."]
+position = Vector2(-2.38419e-07, -6.33333)
+scale = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_s8o2b")
+disabled = true
+
+[node name="AreaToStand" type="Area2D" parent="."]
+position = Vector2(0, 0.333333)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaToStand"]
+position = Vector2(0, -18.3333)
+shape = SubResource("RectangleShape2D_j4grn")
+disabled = true
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
 script = ExtResource("16_meiqt")
@@ -963,3 +983,7 @@ animation_name_left = "crouchLeft"
 animation_name_right = "crouchRight"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="AreaToStand" to="StateMachine/CrouchIdle" method="_on_area_to_stand_body_entered"]
+[connection signal="body_entered" from="AreaToStand" to="StateMachine/Crouch" method="_on_area_to_stand_body_entered"]
+[connection signal="body_exited" from="AreaToStand" to="StateMachine/CrouchIdle" method="_on_area_to_stand_body_exited"]
+[connection signal="body_exited" from="AreaToStand" to="StateMachine/Crouch" method="_on_area_to_stand_body_exited"]

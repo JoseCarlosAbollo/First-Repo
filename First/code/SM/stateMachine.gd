@@ -10,7 +10,7 @@ func init(parent: PlayerClass) -> void:
 
 func change_state(new_state: State) -> void:
 	if current_state:
-		current_state.exit()
+		current_state.exit(new_state)
 	current_state = new_state
 	current_state.enter()
 

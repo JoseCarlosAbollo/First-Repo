@@ -4,6 +4,9 @@ extends CharacterBody2D
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var state_machine = $StateMachine
 @onready var camera_2d = $Camera2D
+@onready var collision_capsule_standing = $CollisionShapeStanding
+@onready var collision_capsule_crouching = $CollisionShapeCrouching
+@onready var area_to_stand = $AreaToStand
 
 func _ready():
 	state_machine.init(self)

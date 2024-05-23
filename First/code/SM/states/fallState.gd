@@ -29,6 +29,6 @@ func process_frame(delta) -> State:
 	# Add the code for handling FRAME UPDATES in the new State
 	return null
 
-func exit():
+func exit(next_state):
 	pass
 

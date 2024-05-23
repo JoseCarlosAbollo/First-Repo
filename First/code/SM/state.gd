@@ -5,17 +5,21 @@ var parent: PlayerClass
 @export var animation_name_left: String
 @export var animation_name_right: String
 static var move_speed: float = 200
-static var lookAtMaxTime = 0.2
-static var cameraMaxPan = 64
 static var direction = 0.0
 static var isPointingLeft = false
-static var lookAtTimer = 0.0
-static var panSpeed = 0.08
-static var isLookingUp = false
-static var isLookingDown = false
+static var isCrouching = false
+static var isAbleToStand = true
 static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+#static var lookAtMaxTime = 0.2
+#static var cameraMaxPan = 64
+#static var lookAtTimer = 0.0
+#static var panSpeed = 0.08
+#static var isLookingUp = false
+#static var isLookingDown = false
+
 func enter() -> void:
+	#print(self)
 	if isPointingLeft:
 		parent.animated_sprite.play(animation_name_left)
 	else:
@@ -30,7 +34,7 @@ func process_physics(delta: float) -> State:
 func process_frame(delta: float) -> State:
 	return null
 
-func exit() -> void:
+func exit(next_state: State) -> void:
 	pass
 
 func finish_animation_signal() -> State:

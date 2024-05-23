@@ -7,12 +7,16 @@ extends State
 
 func enter():
 	super()
-	# Add the code for ENTER function in the new State
+	if !isCrouching:
+		parent.collision_capsule_standing.disabled = true
+		parent.collision_capsule_crouching.disabled = false
+		parent.area_to_stand.get_child(0).disabled = false
+	isCrouching = true
 
 func process_input(event: InputEvent) -> State:
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jumpInput"):
 		return jump_state
-	if Input.is_action_just_pressed("crouchInput"):
+	if Input.is_action_just_pressed("crouchInput") and isAbleToStand:
 		return idle_state
 	return null
 
@@ -33,6 +37,16 @@ func process_frame(delta) -> State:
 	# Add the code for handling FRAME UPDATES in the new State
 	return null
 
-func exit():
-	pass
+func exit(next_state):
+	if(next_state != crouch_state):
+		isCrouching = false
+		parent.collision_capsule_standing.disabled = false
+		parent.collision_capsule_crouching.disabled = true
+		parent.area_to_stand.get_child(0).disabled = true
 
+
+func _on_area_to_stand_body_entered(area):
+	isAbleToStand = false
+
+func _on_area_to_stand_body_exited(area):
+	isAbleToStand = true

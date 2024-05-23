@@ -2,7 +2,7 @@ extends State
 # First export any states that have a transition to/from the new state
 @export var fall_state: State
 
-var jump_speed: float = -400
+var jump_speed: float = -300
 var hold_timer : float = 0
 var max_holding_time : float = 0.5
 
@@ -29,6 +29,6 @@ func process_frame(delta) -> State:
 	hold_timer += delta
 	return null
 
-func exit():
+func exit(next_state):
 	hold_timer = 0
 
