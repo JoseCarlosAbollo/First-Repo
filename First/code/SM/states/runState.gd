@@ -7,6 +7,7 @@ extends State
 
 func enter():
 	super()
+	isAbleToDoubleJump = true
 
 func process_input(event: InputEvent) -> State:
 	if Input.is_action_just_pressed("jumpInput"):
@@ -28,4 +29,6 @@ func process_frame(delta) -> State:
 	return null
 
 func exit(next_state):
-	pass
+	if(next_state == fall_state):
+		parent.coyote_timer.start()
+		isInCoyoteTime = true

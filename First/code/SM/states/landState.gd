@@ -4,10 +4,11 @@ extends State
 @export var run_state: State
 @export var jump_state: State
 @export var crouchIdle_state: State
+@export var fall_state: State
 
 func enter():
 	super()
-	# Add the code for ENTER function in the new State
+	isAbleToDoubleJump = true
 
 func process_input(event: InputEvent) -> State:
 	if Input.is_action_just_pressed("jumpInput"):
@@ -17,12 +18,15 @@ func process_input(event: InputEvent) -> State:
 	return null
 
 func process_physics(delta) -> State:
-	if is_input_left():
-		isPointingLeft = true
-		return run_state
-	elif is_input_right():
-		isPointingLeft = false
-		return run_state
+	if parent.is_on_floor():
+		if is_input_left():
+			isPointingLeft = true
+			return run_state
+		elif is_input_right():
+			isPointingLeft = false
+			return run_state
+	else:
+		return fall_state
 	player_move(delta)
 	return null
 
@@ -30,7 +34,9 @@ func process_frame(delta) -> State:
 	return null
 
 func exit(next_state):
-	pass
+	if(next_state == fall_state):
+		isInCoyoteTime = true
+		parent.coyote_timer.start()
 
-func finish_animation_signal() -> State:
+func animated_sprite_finished() -> State:
 	return idle_state

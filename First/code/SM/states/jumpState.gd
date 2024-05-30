@@ -12,6 +12,8 @@ func enter():
 	player_move(0)
 
 func process_input(event: InputEvent) -> State:
+	if Input.is_action_just_pressed("jumpInput") and isAbleToDoubleJump:
+		return self
 	return null
 
 func process_physics(delta) -> State:

@@ -43,6 +43,9 @@ func exit(next_state):
 		parent.collision_capsule_standing.disabled = false
 		parent.collision_capsule_crouching.disabled = true
 		parent.area_to_stand.get_child(0).disabled = true
+	if(next_state == fall_state):
+		isInCoyoteTime = true
+		parent.coyote_timer.start()
 
 
 func _on_area_to_stand_body_entered(area):

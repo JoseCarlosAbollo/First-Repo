@@ -2,18 +2,20 @@ extends State
 # First export any states that have a transition to/from the new state
 @export var land_state: State
 @export var run_state: State
+@export var jump_state: State
 
 func enter():
 	super()
 	# Add the code for ENTER function in the new State
 
 func process_input(event: InputEvent) -> State:
-	#if is_input_left():
-		#isPointingLeft = true
-		#return self
-	#elif is_input_right():
-		#isPointingLeft = false
-		#return self
+	if Input.is_action_just_pressed("jumpInput") and isInCoyoteTime:
+		print("coyote")
+		return jump_state
+	if Input.is_action_just_pressed("jumpInput") and isAbleToDoubleJump:
+		print("double")
+		isAbleToDoubleJump = false
+		return jump_state
 	return null
 
 func process_physics(delta) -> State:
@@ -26,9 +28,12 @@ func process_physics(delta) -> State:
 	return null
 
 func process_frame(delta) -> State:
-	# Add the code for handling FRAME UPDATES in the new State
 	return null
 
 func exit(next_state):
 	pass
 
+
+
+func _on_coyote_timer_timeout():
+	isInCoyoteTime = false

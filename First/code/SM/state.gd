@@ -9,6 +9,10 @@ static var direction = 0.0
 static var isPointingLeft = false
 static var isCrouching = false
 static var isAbleToStand = true
+static var isInCoyoteTime = false
+static var isAbleToDoubleJump = true
+static var isAbleToAttack = true
+static var attackComboNumber = 1
 static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 #static var lookAtMaxTime = 0.2
@@ -37,7 +41,10 @@ func process_frame(delta: float) -> State:
 func exit(next_state: State) -> void:
 	pass
 
-func finish_animation_signal() -> State:
+func animated_sprite_finished() -> State:
+	return null
+
+func animation_finished(anim_name: String) -> State:
 	return null
 
 func player_move(delta: float) -> void:

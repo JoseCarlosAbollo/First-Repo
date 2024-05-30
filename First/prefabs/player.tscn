@@ -1,4 +1,4 @@
-[gd_scene load_steps=138 format=3 uid="uid://drtjd8udiymjj"]
+[gd_scene load_steps=169 format=3 uid="uid://drtjd8udiymjj"]
 
 [ext_resource type="Script" path="res://code/playerWithSM.gd" id="1_0e65q"]
 [ext_resource type="Texture2D" uid="uid://b7pxf7d0lbhic" path="res://assets/2DpixelTemplate/Movement/Crouch Walk Left/player crouch walk left48x48.png" id="2_t0hln"]
@@ -12,19 +12,182 @@
 [ext_resource type="Texture2D" uid="uid://cdaqap5bd284w" path="res://assets/2DpixelTemplate/Movement/Run Left/player run left48x48.png" id="9_mx3sa"]
 [ext_resource type="Texture2D" uid="uid://t2d74qwb5tx3" path="res://assets/2DpixelTemplate/Movement/Land Left/player land left48x48.png" id="10_4ekn3"]
 [ext_resource type="Texture2D" uid="uid://tcasaw5660ag" path="res://assets/2DpixelTemplate/Movement/Run Right/player run right48x48.png" id="10_4uryj"]
+[ext_resource type="Script" path="res://code/SM/states/attackState.gd" id="10_7pjg7"]
 [ext_resource type="Texture2D" uid="uid://c6278hspll4rm" path="res://assets/2DpixelTemplate/Movement/Look down Left/Look down left48x48.png" id="10_jcon1"]
 [ext_resource type="Texture2D" uid="uid://dx517rn1yfsj0" path="res://assets/2DpixelTemplate/Movement/Look down Right/Look down right48x48.png" id="11_6tf3n"]
 [ext_resource type="Texture2D" uid="uid://2nmu22hrxql8" path="res://assets/2DpixelTemplate/Movement/Land Right/player land right48x48.png" id="11_m4pds"]
 [ext_resource type="Texture2D" uid="uid://jics34rlwmlu" path="res://assets/2DpixelTemplate/Movement/Look up Left/Look up left48x48.png" id="11_mkybn"]
 [ext_resource type="Texture2D" uid="uid://bs0qkf6bdt2df" path="res://assets/2DpixelTemplate/Movement/Look up Right/Look up right48x48.png" id="12_52hlb"]
 [ext_resource type="Script" path="res://code/SM/stateMachine.gd" id="16_meiqt"]
+[ext_resource type="Texture2D" uid="uid://5vb63m33v8kj" path="res://assets/2DpixelTemplate/Combat/Melee/Player Punch/Player Punch 64x64.png" id="16_pfb7m"]
+[ext_resource type="Texture2D" uid="uid://7kcw0xcncisa" path="res://assets/2DpixelTemplate/Combat/Melee/Player Punch Cross/Player Punch Cross 64x64.png" id="17_2gys4"]
 [ext_resource type="Script" path="res://code/SM/states/idleState.gd" id="17_gbcv4"]
+[ext_resource type="Texture2D" uid="uid://b65qorx2aw5f0" path="res://assets/2DpixelTemplate/Combat/Melee/Player Punch Jab/Player Jab 48x48.png" id="18_a3soh"]
 [ext_resource type="Script" path="res://code/SM/states/runState.gd" id="18_abish"]
 [ext_resource type="Script" path="res://code/SM/states/jumpState.gd" id="19_omwp3"]
 [ext_resource type="Script" path="res://code/SM/states/fallState.gd" id="20_aulik"]
 [ext_resource type="Script" path="res://code/SM/states/landState.gd" id="23_3g08m"]
 [ext_resource type="Script" path="res://code/SM/states/crouchIdleState.gd" id="24_pem10"]
 [ext_resource type="Script" path="res://code/SM/states/crouchState.gd" id="25_3xyl7"]
+
+[sub_resource type="Animation" id="Animation_c0fj0"]
+resource_name = "AttackRight1"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AttackHitArea/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateMachine/Attack")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"ableToAttack"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5, 6]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_ob8tv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AttackHitArea/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jcmd7"]
+_data = {
+"AttackRight1": SubResource("Animation_c0fj0"),
+"RESET": SubResource("Animation_ob8tv")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wrvck"]
+atlas = ExtResource("18_a3soh")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvyty"]
+atlas = ExtResource("18_a3soh")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_886nb"]
+atlas = ExtResource("18_a3soh")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fce17"]
+atlas = ExtResource("18_a3soh")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvyup"]
+atlas = ExtResource("18_a3soh")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6n3m3"]
+atlas = ExtResource("18_a3soh")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pb2i0"]
+atlas = ExtResource("18_a3soh")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxr53"]
+atlas = ExtResource("18_a3soh")
+region = Rect2(432, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltap2"]
+atlas = ExtResource("17_2gys4")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pir0u"]
+atlas = ExtResource("17_2gys4")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i668a"]
+atlas = ExtResource("17_2gys4")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wyya"]
+atlas = ExtResource("17_2gys4")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d42ly"]
+atlas = ExtResource("17_2gys4")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jw46n"]
+atlas = ExtResource("17_2gys4")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ijos"]
+atlas = ExtResource("17_2gys4")
+region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7ueyt"]
 atlas = ExtResource("5_6axww")
@@ -394,6 +557,38 @@ region = Rect2(96, 0, 48, 48)
 atlas = ExtResource("12_52hlb")
 region = Rect2(144, 0, 48, 48)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_liw8h"]
+atlas = ExtResource("16_pfb7m")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4gms"]
+atlas = ExtResource("16_pfb7m")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46kpi"]
+atlas = ExtResource("16_pfb7m")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2b4l4"]
+atlas = ExtResource("16_pfb7m")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsnan"]
+atlas = ExtResource("16_pfb7m")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3xk5"]
+atlas = ExtResource("16_pfb7m")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e343n"]
+atlas = ExtResource("16_pfb7m")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uk737"]
+atlas = ExtResource("16_pfb7m")
+region = Rect2(448, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ym2ld"]
 atlas = ExtResource("9_mx3sa")
 region = Rect2(0, 0, 48, 48)
@@ -460,6 +655,61 @@ region = Rect2(336, 0, 48, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h3am3"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wrvck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jvyty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_886nb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fce17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvyup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6n3m3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pb2i0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxr53")
+}],
+"loop": false,
+"name": &"attack1Right",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ltap2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pir0u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i668a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wyya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d42ly")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jw46n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ijos")
+}],
+"loop": false,
+"name": &"attack2Right",
+"speed": 10.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7ueyt")
@@ -823,6 +1073,35 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_liw8h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4gms")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46kpi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2b4l4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wsnan")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3xk5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e343n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uk737")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ym2ld")
 }, {
 "duration": 1.0,
@@ -890,11 +1169,90 @@ size = Vector2(28, 25.3333)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4grn"]
 size = Vector2(13.3333, 10.6667)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o3bf0"]
+size = Vector2(19.3333, 8.83333)
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
 scale = Vector2(3, 3)
 collision_layer = 2
 script = ExtResource("1_0e65q")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("16_meiqt")
+starting_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("run_state", "jump_state", "fall_state", "crouchIdle_state", "attack_state")]
+script = ExtResource("17_gbcv4")
+run_state = NodePath("../Run")
+jump_state = NodePath("../Jump")
+fall_state = NodePath("../Fall")
+crouchIdle_state = NodePath("../CrouchIdle")
+attack_state = NodePath("../Attack")
+animation_name_left = "idleLeft"
+animation_name_right = "idleRight"
+
+[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state", "fall_state", "crouch_state")]
+script = ExtResource("18_abish")
+idle_state = NodePath("../Idle")
+jump_state = NodePath("../Jump")
+fall_state = NodePath("../Fall")
+crouch_state = NodePath("../Crouch")
+animation_name_left = "runLeft"
+animation_name_right = "runRight"
+
+[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state")]
+script = ExtResource("19_omwp3")
+fall_state = NodePath("../Fall")
+animation_name_left = "jumpLeft"
+animation_name_right = "jumpRight"
+
+[node name="Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("land_state", "run_state", "jump_state")]
+script = ExtResource("20_aulik")
+land_state = NodePath("../Land")
+run_state = NodePath("../Run")
+jump_state = NodePath("../Jump")
+animation_name_left = "fallLeft"
+animation_name_right = "fallRight"
+
+[node name="Land" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "run_state", "jump_state", "crouchIdle_state", "fall_state")]
+script = ExtResource("23_3g08m")
+idle_state = NodePath("../Idle")
+run_state = NodePath("../Run")
+jump_state = NodePath("../Jump")
+crouchIdle_state = NodePath("../CrouchIdle")
+fall_state = NodePath("../Fall")
+animation_name_left = "landLeft"
+animation_name_right = "landRight"
+
+[node name="CrouchIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state", "crouch_state", "fall_state")]
+script = ExtResource("24_pem10")
+idle_state = NodePath("../Idle")
+jump_state = NodePath("../Jump")
+crouch_state = NodePath("../Crouch")
+fall_state = NodePath("../Fall")
+animation_name_left = "crouchIdleLeft"
+animation_name_right = "crouchIdleRight"
+
+[node name="Crouch" type="Node" parent="StateMachine" node_paths=PackedStringArray("crouchIdle_state", "jump_state", "run_state", "fall_state")]
+script = ExtResource("25_3xyl7")
+crouchIdle_state = NodePath("../CrouchIdle")
+jump_state = NodePath("../Jump")
+run_state = NodePath("../Run")
+fall_state = NodePath("../Fall")
+animation_name_left = "crouchLeft"
+animation_name_right = "crouchRight"
+
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
+script = ExtResource("10_7pjg7")
+idle_state = NodePath("../Idle")
+animation_name_left = "AttackLeft"
+animation_name_right = "AttackRight"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jcmd7")
+}
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
@@ -920,70 +1278,27 @@ position = Vector2(0, -18.3333)
 shape = SubResource("RectangleShape2D_j4grn")
 disabled = true
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
-script = ExtResource("16_meiqt")
-starting_state = NodePath("Idle")
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("run_state", "jump_state", "fall_state", "crouchIdle_state")]
-script = ExtResource("17_gbcv4")
-run_state = NodePath("../Run")
-jump_state = NodePath("../Jump")
-fall_state = NodePath("../Fall")
-crouchIdle_state = NodePath("../CrouchIdle")
-animation_name_left = "idleLeft"
-animation_name_right = "idleRight"
+[node name="AttackHitArea" type="Area2D" parent="."]
+position = Vector2(12, -17)
 
-[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state", "fall_state", "crouch_state")]
-script = ExtResource("18_abish")
-idle_state = NodePath("../Idle")
-jump_state = NodePath("../Jump")
-fall_state = NodePath("../Fall")
-crouch_state = NodePath("../Crouch")
-animation_name_left = "runLeft"
-animation_name_right = "runRight"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitArea"]
+shape = SubResource("RectangleShape2D_o3bf0")
+disabled = true
 
-[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state")]
-script = ExtResource("19_omwp3")
-fall_state = NodePath("../Fall")
-animation_name_left = "jumpLeft"
-animation_name_right = "jumpRight"
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -16)
+texture = ExtResource("18_a3soh")
+hframes = 10
 
-[node name="Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("land_state", "run_state")]
-script = ExtResource("20_aulik")
-land_state = NodePath("../Land")
-run_state = NodePath("../Run")
-animation_name_left = "fallLeft"
-animation_name_right = "fallRight"
-
-[node name="Land" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "run_state", "jump_state", "crouchIdle_state")]
-script = ExtResource("23_3g08m")
-idle_state = NodePath("../Idle")
-run_state = NodePath("../Run")
-jump_state = NodePath("../Jump")
-crouchIdle_state = NodePath("../CrouchIdle")
-animation_name_left = "landLeft"
-animation_name_right = "landRight"
-
-[node name="CrouchIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state", "crouch_state", "fall_state")]
-script = ExtResource("24_pem10")
-idle_state = NodePath("../Idle")
-jump_state = NodePath("../Jump")
-crouch_state = NodePath("../Crouch")
-fall_state = NodePath("../Fall")
-animation_name_left = "crouchIdleLeft"
-animation_name_right = "crouchIdleRight"
-
-[node name="Crouch" type="Node" parent="StateMachine" node_paths=PackedStringArray("crouchIdle_state", "jump_state", "run_state", "fall_state")]
-script = ExtResource("25_3xyl7")
-crouchIdle_state = NodePath("../CrouchIdle")
-jump_state = NodePath("../Jump")
-run_state = NodePath("../Run")
-fall_state = NodePath("../Fall")
-animation_name_left = "crouchLeft"
-animation_name_right = "crouchRight"
-
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="AreaToStand" to="StateMachine/CrouchIdle" method="_on_area_to_stand_body_entered"]
 [connection signal="body_entered" from="AreaToStand" to="StateMachine/Crouch" method="_on_area_to_stand_body_entered"]
 [connection signal="body_exited" from="AreaToStand" to="StateMachine/CrouchIdle" method="_on_area_to_stand_body_exited"]
 [connection signal="body_exited" from="AreaToStand" to="StateMachine/Crouch" method="_on_area_to_stand_body_exited"]
+[connection signal="timeout" from="CoyoteTimer" to="StateMachine/Fall" method="_on_coyote_timer_timeout"]
