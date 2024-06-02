@@ -23,8 +23,9 @@ static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 #static var isLookingDown = false
 
 func enter() -> void:
-	print(self)
+	#print(self)
 	if isPointingLeft:
+		parent.attack_hit_area
 		parent.animation_player.play(animation_name_left)
 	else:
 		parent.animation_player.play(animation_name_right)

@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var collision_capsule_standing = $CollisionShapeStanding
 @onready var collision_capsule_crouching = $CollisionShapeCrouching
 @onready var area_to_stand = $AreaToStand
+@onready var attack_hit_area = $AttackHitArea
 @onready var coyote_timer = $CoyoteTimer
 
 func _ready():
