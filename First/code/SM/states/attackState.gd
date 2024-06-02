@@ -3,18 +3,19 @@ extends State
 @export var idle_state: State
 
 func enter():
-	animation_name_right += str(attackComboNumber)
+	var animation_name
+	print(animation_name_right)
 	if(isPointingLeft):
-		parent.animation_player.play(animation_name_left)
+		animation_name = animation_name_left + str(attackComboNumber)
+		parent.animation_player.play(animation_name)
 	else:
-		parent.animation_player.play(animation_name_right)
-	parent.animated_sprite.visible = false
-	parent.animation_player.play("AttackRight1")
+		animation_name = animation_name_right + str(attackComboNumber)
+		parent.animation_player.play(animation_name)
 	isAbleToAttack = false
-	print(isAbleToAttack)
 
 func process_input(event) -> State:
-	# Add the code for handling INPUT function in the new State
+	if isAbleToAttack and Input.is_action_just_pressed("attackInput"):
+		return self
 	return null
 
 func process_physics(delta) -> State:
@@ -27,10 +28,8 @@ func process_frame(delta) -> State:
 
 func ableToAttack():
 	isAbleToAttack = true
-	print(isAbleToAttack)
 
 func exit(next_state: State) -> void:
-	parent.animated_sprite.visible = true
 	if(next_state == self):
 		attackComboNumber += 1
 	else:

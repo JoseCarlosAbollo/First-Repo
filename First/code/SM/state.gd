@@ -23,11 +23,11 @@ static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 #static var isLookingDown = false
 
 func enter() -> void:
-	#print(self)
+	print(self)
 	if isPointingLeft:
-		parent.animated_sprite.play(animation_name_left)
+		parent.animation_player.play(animation_name_left)
 	else:
-		parent.animated_sprite.play(animation_name_right)
+		parent.animation_player.play(animation_name_right)
 
 func process_input(event: InputEvent) -> State:
 	return null

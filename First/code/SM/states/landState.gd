@@ -38,5 +38,5 @@ func exit(next_state):
 		isInCoyoteTime = true
 		parent.coyote_timer.start()
 
-func animated_sprite_finished() -> State:
+func animation_finished(anim_name: String) -> State:
 	return idle_state
