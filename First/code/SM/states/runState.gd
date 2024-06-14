@@ -4,6 +4,8 @@ extends State
 @export var jump_state: State
 @export var fall_state: State
 @export var crouch_state: State
+@export var slide_state: State
+@export var attack_state: State
 
 func enter():
 	super()
@@ -13,7 +15,12 @@ func process_input(event: InputEvent) -> State:
 	if Input.is_action_just_pressed("jumpInput"):
 		return jump_state
 	if Input.is_action_just_pressed("crouchInput"):
-		return crouch_state
+		if parent.velocity.x != 0:
+			return slide_state
+		else:
+			return crouch_state
+	if isAbleToAttack and Input.is_action_just_pressed("attackInput"):
+		return attack_state
 	return null
 
 func process_physics(delta) -> State:

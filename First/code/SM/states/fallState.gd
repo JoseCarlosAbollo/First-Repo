@@ -10,10 +10,8 @@ func enter():
 
 func process_input(event: InputEvent) -> State:
 	if Input.is_action_just_pressed("jumpInput") and isInCoyoteTime:
-		print("coyote")
 		return jump_state
 	if Input.is_action_just_pressed("jumpInput") and isAbleToDoubleJump:
-		print("double")
 		isAbleToDoubleJump = false
 		return jump_state
 	return null
@@ -32,8 +30,6 @@ func process_frame(delta) -> State:
 
 func exit(next_state):
 	pass
-
-
 
 func _on_coyote_timer_timeout():
 	isInCoyoteTime = false

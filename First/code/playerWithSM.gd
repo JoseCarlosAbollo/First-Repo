@@ -23,8 +23,5 @@ func _physics_process(delta):
 func _process(delta):
 	state_machine.process_frame(delta)
 
-func _on_animated_sprite_2d_animation_finished():
-	state_machine.animated_sprite_finished()
-
 func _on_animation_player_animation_finished(anim_name):
 	state_machine.animation_finished(anim_name)

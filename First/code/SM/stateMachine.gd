@@ -29,11 +29,6 @@ func process_frame(delta: float):
 	if new_state:
 		change_state(new_state)
 
-func animated_sprite_finished():
-	var new_state = current_state.animated_sprite_finished()
-	if new_state:
-		change_state(new_state)
-
 func animation_finished(anim_name: String):
 	var new_state = current_state.animation_finished(anim_name)
 	if new_state:

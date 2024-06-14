@@ -13,6 +13,7 @@ static var isInCoyoteTime = false
 static var isAbleToDoubleJump = true
 static var isAbleToAttack = true
 static var attackComboNumber = 1
+static var hitAreaPositionLeft = 12
 static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 #static var lookAtMaxTime = 0.2
@@ -25,7 +26,6 @@ static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func enter() -> void:
 	#print(self)
 	if isPointingLeft:
-		parent.attack_hit_area
 		parent.animation_player.play(animation_name_left)
 	else:
 		parent.animation_player.play(animation_name_right)
@@ -42,9 +42,6 @@ func process_frame(delta: float) -> State:
 func exit(next_state: State) -> void:
 	pass
 
-func animated_sprite_finished() -> State:
-	return null
-
 func animation_finished(anim_name: String) -> State:
 	return null
 
@@ -57,6 +54,21 @@ func player_move(delta: float) -> void:
 	elif direction < 0:
 		isPointingLeft = true
 	parent.move_and_slide()
+
+func set_low_profile() -> void:
+	if !isCrouching:
+		parent.collision_capsule_standing.disabled = true
+		parent.collision_capsule_crouching.disabled = false
+		parent.area_to_stand.get_child(0).disabled = false
+		isCrouching = true
+
+func set_high_profile() -> void:
+	if isCrouching:
+		parent.collision_capsule_standing.disabled = false
+		parent.collision_capsule_crouching.disabled = true
+		parent.area_to_stand.get_child(0).disabled = true
+		isCrouching = false
+
 func is_input_left() -> bool:
 	return Input.is_action_just_pressed("leftInput") or (Input.is_action_pressed("leftInput") and !Input.is_action_pressed("rightInput"))
 func is_input_right() -> bool:

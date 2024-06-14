@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://drtjd8udiymjj"]
+[gd_scene load_steps=44 format=3 uid="uid://drtjd8udiymjj"]
 
 [ext_resource type="Script" path="res://code/playerWithSM.gd" id="1_0e65q"]
 [ext_resource type="Script" path="res://code/SM/states/attackState.gd" id="10_7pjg7"]
@@ -63,21 +63,6 @@ tracks/3/keys = {
 "update": 1,
 "values": [true]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("AnimationPlayer:speed_scale")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.0]
-}
-
-[sub_resource type="Animation" id="Animation_lbp6o"]
-resource_name = "attackLeft1"
 
 [sub_resource type="Animation" id="Animation_c0fj0"]
 resource_name = "attackRight1"
@@ -132,18 +117,6 @@ tracks/3/keys = {
 "update": 1,
 "values": [Vector2(7, 0)]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("AnimationPlayer:speed_scale")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [4.0, 1.0]
-}
 
 [sub_resource type="Animation" id="Animation_eqqu3"]
 resource_name = "attackRight2"
@@ -155,10 +128,10 @@ tracks/0/path = NodePath("SpriteSheet:offset")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2(7, 0)]
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(7, 0), Vector2(0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -197,18 +170,6 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("AnimationPlayer:speed_scale")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.7),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [2.0, 1.0]
 }
 
 [sub_resource type="Animation" id="Animation_u8k2q"]
@@ -595,7 +556,6 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jcmd7"]
 _data = {
 "RESET": SubResource("Animation_60wn3"),
-"attackLeft1": SubResource("Animation_lbp6o"),
 "attackRight1": SubResource("Animation_c0fj0"),
 "attackRight2": SubResource("Animation_eqqu3"),
 "crouchIdleLeft": SubResource("Animation_u8k2q"),
@@ -650,82 +610,80 @@ starting_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("run_state", "jump_state", "fall_state", "crouchIdle_state", "attack_state")]
 script = ExtResource("17_gbcv4")
+animation_name_left = "idleLeft"
+animation_name_right = "idleRight"
 run_state = NodePath("../Run")
 jump_state = NodePath("../Jump")
 fall_state = NodePath("../Fall")
 crouchIdle_state = NodePath("../CrouchIdle")
 attack_state = NodePath("../Attack")
-animation_name_left = "idleLeft"
-animation_name_right = "idleRight"
 
-[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state", "fall_state", "crouch_state", "slide_state", "attack_state")]
+[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state", "fall_state", "crouch_state", "slide_state")]
 script = ExtResource("18_abish")
+animation_name_left = "runLeft"
+animation_name_right = "runRight"
 idle_state = NodePath("../Idle")
 jump_state = NodePath("../Jump")
 fall_state = NodePath("../Fall")
 crouch_state = NodePath("../Crouch")
 slide_state = NodePath("../Slide")
-attack_state = NodePath("../Attack")
-animation_name_left = "runLeft"
-animation_name_right = "runRight"
 
 [node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state")]
 script = ExtResource("19_omwp3")
-fall_state = NodePath("../Fall")
 animation_name_left = "jumpLeft"
 animation_name_right = "jumpRight"
+fall_state = NodePath("../Fall")
 
 [node name="Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("land_state", "run_state", "jump_state")]
 script = ExtResource("20_aulik")
+animation_name_left = "fallLeft"
+animation_name_right = "fallRight"
 land_state = NodePath("../Land")
 run_state = NodePath("../Run")
 jump_state = NodePath("../Jump")
-animation_name_left = "fallLeft"
-animation_name_right = "fallRight"
 
-[node name="Land" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "run_state", "jump_state", "crouchIdle_state", "fall_state", "attack_state")]
+[node name="Land" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "run_state", "jump_state", "crouchIdle_state", "fall_state")]
 script = ExtResource("23_3g08m")
+animation_name_left = "landLeft"
+animation_name_right = "landRight"
 idle_state = NodePath("../Idle")
 run_state = NodePath("../Run")
 jump_state = NodePath("../Jump")
 crouchIdle_state = NodePath("../CrouchIdle")
 fall_state = NodePath("../Fall")
-attack_state = NodePath("../Attack")
-animation_name_left = "landLeft"
-animation_name_right = "landRight"
 
 [node name="CrouchIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state", "crouch_state", "fall_state")]
 script = ExtResource("24_pem10")
+animation_name_left = "crouchIdleLeft"
+animation_name_right = "crouchIdleRight"
 idle_state = NodePath("../Idle")
 jump_state = NodePath("../Jump")
 crouch_state = NodePath("../Crouch")
 fall_state = NodePath("../Fall")
-animation_name_left = "crouchIdleLeft"
-animation_name_right = "crouchIdleRight"
 
 [node name="Crouch" type="Node" parent="StateMachine" node_paths=PackedStringArray("crouchIdle_state", "jump_state", "run_state", "fall_state")]
 script = ExtResource("25_3xyl7")
+animation_name_left = "crouchLeft"
+animation_name_right = "crouchRight"
 crouchIdle_state = NodePath("../CrouchIdle")
 jump_state = NodePath("../Jump")
 run_state = NodePath("../Run")
 fall_state = NodePath("../Fall")
-animation_name_left = "crouchLeft"
-animation_name_right = "crouchRight"
 
 [node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
 script = ExtResource("10_7pjg7")
-idle_state = NodePath("../Idle")
 animation_name_left = "attackLeft"
 animation_name_right = "attackRight"
+idle_state = NodePath("../Idle")
 
 [node name="Slide" type="Node" parent="StateMachine" node_paths=PackedStringArray("land_state", "fall_state", "jump_state", "crouchIdle_state")]
 script = ExtResource("11_ebxjx")
+animation_name_left = "slideLeft"
+animation_name_right = "slideRight"
 land_state = NodePath("../Land")
 fall_state = NodePath("../Fall")
 jump_state = NodePath("../Jump")
 crouchIdle_state = NodePath("../CrouchIdle")
-animation_name_left = "slideLeft"
-animation_name_right = "slideRight"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 callback_mode_process = 0
@@ -765,7 +723,7 @@ wait_time = 0.1
 one_shot = true
 
 [node name="AttackHitArea" type="Area2D" parent="."]
-position = Vector2(12, -17)
+position = Vector2(-12, -17)
 
 [node name="attackArea1" type="CollisionShape2D" parent="AttackHitArea"]
 shape = SubResource("RectangleShape2D_o3bf0")

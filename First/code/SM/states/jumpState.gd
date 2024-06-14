@@ -7,7 +7,16 @@ var hold_timer : float = 0
 var max_holding_time : float = 0.5
 
 func enter():
-	super()
+	if !isAbleToDoubleJump:
+		var animation_name
+		if(isPointingLeft):
+			animation_name = animation_name_left + "2"
+			parent.animation_player.play(animation_name)
+		else:
+			animation_name = animation_name_right + "2"
+			parent.animation_player.play(animation_name)
+	else:
+		super()
 	parent.velocity.y = jump_speed
 	player_move(0)
 

@@ -3,8 +3,8 @@ extends State
 @export var idle_state: State
 
 func enter():
+	print(self)
 	var animation_name
-	print(animation_name_right)
 	if(isPointingLeft):
 		animation_name = animation_name_left + str(attackComboNumber)
 		parent.animation_player.play(animation_name)
@@ -30,7 +30,7 @@ func ableToAttack():
 	isAbleToAttack = true
 
 func exit(next_state: State) -> void:
-	if(next_state == self):
+	if(attackComboNumber == 1 and next_state == self):
 		attackComboNumber += 1
 	else:
 		attackComboNumber = 1

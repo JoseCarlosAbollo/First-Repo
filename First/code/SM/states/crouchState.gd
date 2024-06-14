@@ -10,11 +10,7 @@ extends State
 
 func enter():
 	super()
-	if !isCrouching:
-		parent.collision_capsule_standing.disabled = true
-		parent.collision_capsule_crouching.disabled = false
-		parent.area_to_stand.get_child(0).disabled = false
-	isCrouching = true
+	set_low_profile()
 	move_speed *= speed_multiplier
 
 func process_input(event: InputEvent) -> State:
@@ -38,10 +34,7 @@ func process_frame(delta) -> State:
 
 func exit(next_state):
 	if(next_state != crouchIdle_state):
-		isCrouching = false
-		parent.collision_capsule_standing.disabled = false
-		parent.collision_capsule_crouching.disabled = true
-		parent.area_to_stand.get_child(0).disabled = true
+		set_high_profile()
 	if(next_state == fall_state):
 		isInCoyoteTime = true
 		parent.coyote_timer.start()
