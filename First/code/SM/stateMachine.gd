@@ -3,7 +3,7 @@ extends Node
 @export var starting_state: State
 var current_state: State
 
-func init(parent: PlayerClass) -> void:
+func init(parent: CharacterBody2D) -> void:
 	for child in get_children(): # If this fails, make sure no child is without implementation
 		child.parent = parent
 	change_state(starting_state)

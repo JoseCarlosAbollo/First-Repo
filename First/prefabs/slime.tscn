@@ -1,89 +1,101 @@
-[gd_scene load_steps=16 format=3 uid="uid://dips6v1kau1h1"]
+[gd_scene load_steps=19 format=3 uid="uid://dips6v1kau1h1"]
 
-[ext_resource type="Texture2D" uid="uid://djw3v3r88foo7" path="res://assets/sprites2/slime_green.png" id="1_wpyuv"]
+[ext_resource type="Texture2D" uid="uid://crqjde012ej3h" path="res://assets/slime/Spritesheet.png" id="2_6a2t2"]
 [ext_resource type="PackedScene" uid="uid://qrat08xsvua4" path="res://prefabs/killzone.tscn" id="2_guvg1"]
-[ext_resource type="Script" path="res://code/slime.gd" id="2_wgq8c"]
+[ext_resource type="Script" path="res://code/SM/slime.gd" id="2_wgq8c"]
+[ext_resource type="Script" path="res://code/SM/slimeStates/dormantState.gd" id="3_12a8c"]
+[ext_resource type="Script" path="res://code/SM/stateMachine.gd" id="3_m4leb"]
+[ext_resource type="Script" path="res://code/SM/slimeStates/aggroState.gd" id="4_882d7"]
+[ext_resource type="Script" path="res://code/SM/slimeStates/damagedState.gd" id="5_2n8in"]
+[ext_resource type="Script" path="res://code/SM/slimeStates/awakeState.gd" id="5_tcg53"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_j1m5k"]
-atlas = ExtResource("1_wpyuv")
-region = Rect2(0, 0, 24, 24)
+[sub_resource type="Animation" id="Animation_a3522"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_frvqs"]
-atlas = ExtResource("1_wpyuv")
-region = Rect2(24, 0, 24, 24)
+[sub_resource type="Animation" id="Animation_6wb36"]
+resource_name = "awake"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vvn3s"]
-atlas = ExtResource("1_wpyuv")
-region = Rect2(48, 0, 24, 24)
+[sub_resource type="Animation" id="Animation_cwhxb"]
+resource_name = "damaged"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [5, 6]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7hsqv"]
-atlas = ExtResource("1_wpyuv")
-region = Rect2(72, 0, 24, 24)
+[sub_resource type="Animation" id="Animation_w01xw"]
+resource_name = "dormant"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vxr1f"]
-atlas = ExtResource("1_wpyuv")
-region = Rect2(0, 0, 24, 24)
+[sub_resource type="Animation" id="Animation_uvokv"]
+resource_name = "idle"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bhewc"]
-atlas = ExtResource("1_wpyuv")
-region = Rect2(0, 24, 24, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d1rg3"]
-atlas = ExtResource("1_wpyuv")
-region = Rect2(24, 24, 24, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wat0o"]
-atlas = ExtResource("1_wpyuv")
-region = Rect2(48, 24, 24, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p6q4w"]
-atlas = ExtResource("1_wpyuv")
-region = Rect2(72, 24, 24, 24)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_wmf1p"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_j1m5k")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_frvqs")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vvn3s")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7hsqv")
-}],
-"loop": false,
-"name": &"awakening",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vxr1f")
-}],
-"loop": false,
-"name": &"dormant",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bhewc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d1rg3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wat0o")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p6q4w")
-}],
-"loop": true,
-"name": &"wokeIdle",
-"speed": 5.0
-}]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_02uju"]
+_data = {
+"RESET": SubResource("Animation_a3522"),
+"awake": SubResource("Animation_6wb36"),
+"damaged": SubResource("Animation_cwhxb"),
+"dormant": SubResource("Animation_w01xw"),
+"idle": SubResource("Animation_uvokv")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_typud"]
 size = Vector2(8, 13)
@@ -92,16 +104,67 @@ size = Vector2(8, 13)
 radius = 9.0
 height = 226.0
 
-[node name="Enemy" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j5jfg"]
+size = Vector2(16, 30)
+
+[sub_resource type="GDScript" id="GDScript_3gur3"]
+script/source = "extends CollisionShape2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+func isEnemyHitBox():
+	pass
+"
+
+[node name="Slime" type="CharacterBody2D"]
 script = ExtResource("2_wgq8c")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -12)
-sprite_frames = SubResource("SpriteFrames_wmf1p")
-animation = &"awakening"
-autoplay = "dormant"
-frame = 3
-frame_progress = 1.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_02uju")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("2_6a2t2")
+hframes = 3
+vframes = 3
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("3_m4leb")
+starting_state = NodePath("Dormant")
+
+[node name="Dormant" type="Node" parent="StateMachine" node_paths=PackedStringArray("awake_state")]
+script = ExtResource("3_12a8c")
+awake_state = NodePath("../Awake")
+animation_name_left = "dormant"
+animation_name_right = "dormant"
+
+[node name="Awake" type="Node" parent="StateMachine" node_paths=PackedStringArray("aggro_state")]
+script = ExtResource("5_tcg53")
+aggro_state = NodePath("../Aggro")
+animation_name_left = "awake"
+animation_name_right = "awake"
+
+[node name="Aggro" type="Node" parent="StateMachine" node_paths=PackedStringArray("damaged_state")]
+script = ExtResource("4_882d7")
+damaged_state = NodePath("../Damaged")
+animation_name_left = "idle"
+animation_name_right = "idle"
+
+[node name="Damaged" type="Node" parent="StateMachine" node_paths=PackedStringArray("aggro_state")]
+script = ExtResource("5_2n8in")
+aggro_state = NodePath("../Aggro")
+animation_name_left = "damaged"
+animation_name_right = "damaged"
 
 [node name="RCright" type="RayCast2D" parent="."]
 position = Vector2(0, -12)
@@ -130,5 +193,13 @@ position = Vector2(0, -10)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_maewc")
 
-[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="body_shape_entered" from="spawnArea" to="." method="_on_spawn_area_body_shape_entered"]
+[node name="HitboxArea" type="Area2D" parent="."]
+
+[node name="HB" type="CollisionShape2D" parent="HitboxArea"]
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_j5jfg")
+script = SubResource("GDScript_3gur3")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="body_shape_entered" from="spawnArea" to="StateMachine/Dormant" method="_on_spawn_area_body_shape_entered"]
+[connection signal="area_entered" from="HitboxArea" to="StateMachine/Aggro" method="_on_hitbox_area_area_entered"]

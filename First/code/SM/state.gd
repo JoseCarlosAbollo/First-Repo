@@ -1,7 +1,7 @@
 class_name State
 extends Node
 
-var parent: PlayerClass
+var parent: CharacterBody2D
 @export var animation_name_left: String
 @export var animation_name_right: String
 static var move_speed: float = 200
@@ -24,7 +24,7 @@ static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 #static var isLookingDown = false
 
 func enter() -> void:
-	#print(self)
+	#print(isAbleToAttack)
 	if isPointingLeft:
 		parent.animation_player.play(animation_name_left)
 	else:
