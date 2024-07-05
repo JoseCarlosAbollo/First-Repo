@@ -659,10 +659,10 @@ radius = 6.66667
 height = 23.3333
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8o2b"]
-size = Vector2(28, 25.3333)
+size = Vector2(21.3333, 25.3333)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4grn"]
-size = Vector2(13.3333, 10.6667)
+size = Vector2(9.99998, 10.6667)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o3bf0"]
 size = Vector2(19.3333, 8.83333)
