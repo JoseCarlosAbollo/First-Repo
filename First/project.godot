@@ -19,6 +19,16 @@ config/icon="res://icon.svg"
 
 project/assembly_name="First"
 
+[file_customization]
+
+folder_colors={
+"res://Scenes/": "gray",
+"res://assets/": "pink",
+"res://code/": "green",
+"res://fonts/": "purple",
+"res://music/": "blue"
+}
+
 [input]
 
 jumpInput={

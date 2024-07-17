@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://bprxkhnntmgid"]
+
+[ext_resource type="Script" path="res://code/SM/Enemies/enemySM.gd" id="1_2ksm1"]
+[ext_resource type="Script" path="res://code/SM/Enemies/dormantState.gd" id="2_anrd6"]
+[ext_resource type="Script" path="res://code/SM/Enemies/awakeState.gd" id="3_1t0ii"]
+[ext_resource type="Script" path="res://code/SM/Enemies/idleState.gd" id="4_tc4gx"]
+[ext_resource type="Script" path="res://code/SM/Enemies/aggroState.gd" id="5_gfcv2"]
+[ext_resource type="Script" path="res://code/SM/Enemies/attackState.gd" id="6_jwoyd"]
+[ext_resource type="Script" path="res://code/SM/Enemies/damagedState.gd" id="7_5kubh"]
+
+[node name="SM" type="Node"]
+script = ExtResource("1_2ksm1")
+
+[node name="Dormant" type="Node" parent="."]
+script = ExtResource("2_anrd6")
+
+[node name="Awake" type="Node" parent="." node_paths=PackedStringArray("aggro_state")]
+script = ExtResource("3_1t0ii")
+aggro_state = NodePath("../Aggro")
+
+[node name="Idle" type="Node" parent="." node_paths=PackedStringArray("aggro_state", "dormant_state", "damaged_state")]
+script = ExtResource("4_tc4gx")
+aggro_state = NodePath("../Aggro")
+dormant_state = NodePath("../Dormant")
+damaged_state = NodePath("../Damaged")
+
+[node name="Aggro" type="Node" parent="." node_paths=PackedStringArray("idle_state", "attack_state", "damaged_state")]
+script = ExtResource("5_gfcv2")
+idle_state = NodePath("../Idle")
+attack_state = NodePath("../Attack")
+damaged_state = NodePath("../Damaged")
+
+[node name="Attack" type="Node" parent="." node_paths=PackedStringArray("aggro_state")]
+script = ExtResource("6_jwoyd")
+aggro_state = NodePath("../Aggro")
+
+[node name="Damaged" type="Node" parent="." node_paths=PackedStringArray("aggro_state", "idle_state")]
+script = ExtResource("7_5kubh")
+aggro_state = NodePath("../Aggro")
+idle_state = NodePath("../Idle")
