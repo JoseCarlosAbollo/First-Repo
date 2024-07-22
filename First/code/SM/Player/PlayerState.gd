@@ -4,31 +4,27 @@ extends Node
 var parent: CharacterBody2D
 @export var animation_name_left: String
 @export var animation_name_right: String
-static var move_speed: float = 200
-static var direction = 0.0
-static var isPointingLeft = false
-static var isCrouching = false
-static var isAbleToStand = true
-static var isInCoyoteTime = false
-static var isAbleToDoubleJump = true
-static var isAbleToAttack = true
-static var attackComboNumber = 1
-static var hitAreaPositionLeft = 12
+static var baseSpeed: float = 200
+static var inputSpeed: float = 0
+static var direction: float = 0.0
+static var isPointingLeft: bool = false
+static var isCrouching: bool = false
+static var isAbleToMove: bool = true
+static var isAbleToStand: bool = true
+static var isInCoyoteTime: bool = false
+static var isAbleToDoubleJump: bool = true
+static var isAbleToAttack: bool = true
+static var attackComboNumber: int = 1
 static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-#static var lookAtMaxTime = 0.2
-#static var cameraMaxPan = 64
-#static var lookAtTimer = 0.0
-#static var panSpeed = 0.08
-#static var isLookingUp = false
-#static var isLookingDown = false
 
 func enter() -> void:
-	#print(isAbleToAttack)
 	if isPointingLeft:
 		parent.animation_player.play(animation_name_left)
+		parent.orientation_left.scale.x = 1
 	else:
 		parent.animation_player.play(animation_name_right)
+		parent.orientation_left.scale.x = -1
 
 func process_input(event: InputEvent) -> PlayerState:
 	return null
@@ -46,13 +42,46 @@ func animation_finished(anim_name: String) -> PlayerState:
 	return null
 
 func player_move(delta: float) -> void:
-	direction = Input.get_axis("leftInput","rightInput") * move_speed
-	parent.velocity.y += gravity * delta
-	parent.velocity.x = direction
-	if direction > 0:
+	if isAbleToMove:
+		inputSpeed = Input.get_axis("leftInput","rightInput") * baseSpeed
+	
+	if inputSpeed > 0:
 		isPointingLeft = false
-	elif direction < 0:
+	elif inputSpeed < 0:
 		isPointingLeft = true
+	
+	var normal:Vector2 = parent.get_floor_normal()
+	var isClimbingARamp: bool = false
+	if normal.y != -1: # is on a ramp
+		if normal.x < 0 : # ramp up
+			if normal.x > -0.5 and normal.x < -0.4 : # hard ramp up
+				parent.floorNormalGizmo = Vector2(cos(PI + 1.107),sin(PI + 1.107))
+			if normal.x > -0.4 and normal.x < -0.3 : # soft ramp up
+				parent.floorNormalGizmo = Vector2(cos(PI + 1.249),sin(PI + 1.249))
+			if !isPointingLeft: 
+				isClimbingARamp = true
+		elif normal.x > 0 : # ramp down
+			if normal.x > 0.4 and normal.x < 0.5 : # hard ramp down
+				parent.floorNormalGizmo = Vector2(cos(0.46365 -PI/2),sin(0.46365 -PI/2))
+			if normal.x > 0.3 and normal.x < 0.4 : # soft ramp down
+				parent.floorNormalGizmo = Vector2(cos(0.321 -PI/2),sin(0.321 -PI/2))
+			if isPointingLeft: 
+				isClimbingARamp = true
+	else: # is on a plane
+		parent.floorNormalGizmo = Vector2(cos(3*PI/2),sin(3*PI/2))
+	
+	if isPointingLeft:
+		parent.moveDirectionGizmo = parent.floorNormalGizmo.orthogonal()
+	else:
+		parent.moveDirectionGizmo.y = parent.floorNormalGizmo.x
+		parent.moveDirectionGizmo.x = -parent.floorNormalGizmo.y
+	
+	if self.to_string().contains("Run") and !isClimbingARamp:
+		parent.velocity = parent.moveDirectionGizmo * baseSpeed
+	else :
+		parent.velocity.x = inputSpeed
+		parent.velocity.y += gravity * delta
+	
 	parent.move_and_slide()
 
 func set_low_profile() -> void:
@@ -73,3 +102,4 @@ func is_input_left() -> bool:
 	return Input.is_action_just_pressed("leftInput") or (Input.is_action_pressed("leftInput") and !Input.is_action_pressed("rightInput"))
 func is_input_right() -> bool:
 	return Input.is_action_just_pressed("rightInput") or (Input.is_action_pressed("rightInput") and !Input.is_action_pressed("leftInput"))
+

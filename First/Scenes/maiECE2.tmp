@@ -634,7 +634,7 @@ layer_0/tile_data = PackedInt32Array(196599, 65536, 1, 196600, 327680, 5, 196603
 
 [node name="Player" parent="." instance=ExtResource("1_0gwpx")]
 z_index = 10
-position = Vector2(-56, 144)
+position = Vector2(800, -164)
 scale = Vector2(1, 1)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -666,6 +666,3 @@ position = Vector2(28, 134)
 [node name="EnemyBoundary2" parent="Enemies" instance=ExtResource("8_fywts")]
 visible = false
 position = Vector2(-152, 134)
-
-[connection signal="isMoveLocked" from="Player" to="Player/Camera2D" method="_on_player_is_move_locked"]
-[connection signal="isMoveUnLocked" from="Player" to="Player/Camera2D" method="_on_player_is_move_un_locked"]

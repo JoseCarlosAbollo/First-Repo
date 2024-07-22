@@ -5,9 +5,14 @@ extends PlayerState
 @export var jump_state: PlayerState
 @export var crouchIdle_state: PlayerState
 
+signal moveIsLocked
+signal moveIsUnlocked
+
 func enter():
 	super()
 	set_low_profile()
+	isAbleToMove = false
+	moveIsLocked.emit()
 
 func process_input(event) -> PlayerState:
 	if Input.is_action_just_pressed("jumpInput"):
@@ -15,7 +20,7 @@ func process_input(event) -> PlayerState:
 	return null
 
 func process_physics(delta) -> PlayerState:
-	parent.move_and_slide()
+	player_move(delta)
 	if !parent.is_on_floor():
 		set_high_profile()
 		return fall_state
@@ -26,6 +31,8 @@ func process_frame(delta) -> PlayerState:
 	return null
 
 func exit(next_state):
+	isAbleToMove = true
+	moveIsUnlocked.emit()
 	pass
 
 func animation_finished(animation_name) -> PlayerState:

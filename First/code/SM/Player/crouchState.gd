@@ -6,12 +6,12 @@ extends PlayerState
 @export var fall_state: PlayerState
 
 @export var speed_multiplier: float = 0.5
-@onready var original_speed: float = move_speed
+@onready var original_speed: float = baseSpeed
 
 func enter():
 	super()
 	set_low_profile()
-	move_speed *= speed_multiplier
+	baseSpeed *= speed_multiplier
 
 func process_input(event: InputEvent) -> PlayerState:
 	if Input.is_action_just_pressed("jumpInput"):
@@ -22,10 +22,10 @@ func process_input(event: InputEvent) -> PlayerState:
 
 func process_physics(delta) -> PlayerState:
 	player_move(delta)
-	if direction == 0:
+	if inputSpeed == 0:
 		return crouchIdle_state
 	if !parent.is_on_floor():
-		return fall_state	
+		return fall_state
 	return null
 
 func process_frame(delta) -> PlayerState:
@@ -38,7 +38,7 @@ func exit(next_state):
 	if(next_state == fall_state):
 		isInCoyoteTime = true
 		parent.coyote_timer.start()
-	move_speed = original_speed
+	baseSpeed = original_speed
 
 func _on_area_to_stand_body_entered(area):
 	isAbleToStand = false

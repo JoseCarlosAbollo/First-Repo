@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://code/SM/Player/PlayerStateMachine.gd" id="2_i63i2"]
 [ext_resource type="Script" path="res://code/SM/Player/attackState.gd" id="10_7pjg7"]
 [ext_resource type="Script" path="res://code/SM/Player/slideState.gd" id="11_ebxjx"]
-[ext_resource type="Script" path="res://code/Others/playerGizmos.gd" id="13_qi1ap"]
+[ext_resource type="Script" path="res://Scenes/prefabs/orientation.gd" id="13_clt8a"]
 [ext_resource type="Script" path="res://code/SM/Player/idleState.gd" id="17_gbcv4"]
 [ext_resource type="Script" path="res://code/SM/Player/runState.gd" id="18_abish"]
 [ext_resource type="Script" path="res://code/SM/Player/jumpState.gd" id="19_omwp3"]
@@ -757,10 +757,6 @@ crouchIdle_state = NodePath("../CrouchIdle")
 animation_name_left = "slideLeft"
 animation_name_right = "slideRight"
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2(0, -18.6667)
-target_position = Vector2(0, 21.3333)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 callback_mode_process = 0
 libraries = {
@@ -800,6 +796,7 @@ one_shot = true
 
 [node name="OrientateLeft" type="Node2D" parent="."]
 scale = Vector2(-1, 1)
+script = ExtResource("13_clt8a")
 
 [node name="AttackHitArea" type="Area2D" parent="OrientateLeft" groups=["playerAttack"]]
 position = Vector2(-20, -10)
@@ -810,11 +807,6 @@ position = Vector2(-7, 0)
 shape = SubResource("RectangleShape2D_o3bf0")
 disabled = true
 
-[node name="Gizmos" type="Node2D" parent="."]
-script = ExtResource("13_qi1ap")
-
-[connection signal="moveIsLocked" from="StateMachine/Slide" to="." method="_on_slide_move_is_locked"]
-[connection signal="moveIsUnlocked" from="StateMachine/Slide" to="." method="_on_slide_move_is_unlocked"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="AreaToStand" to="StateMachine/CrouchIdle" method="_on_area_to_stand_body_entered"]
 [connection signal="body_entered" from="AreaToStand" to="StateMachine/Crouch" method="_on_area_to_stand_body_entered"]

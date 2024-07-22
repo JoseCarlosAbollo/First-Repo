@@ -28,7 +28,7 @@ func process_input(event: InputEvent) -> PlayerState:
 
 func process_physics(delta) -> PlayerState:
 	player_move(delta)
-	if direction == 0:
+	if inputSpeed == 0:
 		return idle_state
 	if !parent.is_on_floor():
 		return fall_state

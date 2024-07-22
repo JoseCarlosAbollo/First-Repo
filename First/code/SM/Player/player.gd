@@ -1,14 +1,23 @@
 extends CharacterBody2D
 
-@onready var animated_sprite = $AnimatedSprite2D
 @onready var animation_player = $AnimationPlayer
 @onready var state_machine = $StateMachine
 @onready var camera_2d = $Camera2D
 @onready var collision_capsule_standing = $CollisionShapeStanding
 @onready var collision_capsule_crouching = $CollisionShapeCrouching
 @onready var area_to_stand = $AreaToStand
-@onready var attack_hit_area = $AttackHitArea
 @onready var coyote_timer = $CoyoteTimer
+@onready var orientation_left = $OrientateLeft
+@onready var floorNormalRC = $RayCast2D
+
+signal isMoveLocked
+signal isMoveUnLocked
+
+#------------------------------------------------------
+# GIZMOS
+#------------------------------------------------------
+var moveDirectionGizmo : Vector2 = Vector2.RIGHT
+var floorNormalGizmo : Vector2 = Vector2.UP
 
 func _ready():
 	state_machine.init(self)
@@ -24,3 +33,10 @@ func _process(delta):
 
 func _on_animation_player_animation_finished(anim_name):
 	state_machine.animation_finished(anim_name)
+
+
+func _on_slide_move_is_locked():
+	isMoveLocked.emit()
+
+func _on_slide_move_is_unlocked():
+	isMoveUnLocked.emit()
