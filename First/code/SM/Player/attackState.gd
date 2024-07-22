@@ -4,13 +4,13 @@ extends PlayerState
 
 func enter():
 	isAbleToAttack = false
-	var animation_name
+	var animation_final_name
 	if(isPointingLeft):
-		animation_name = animation_name + "Left1"
-		parent.animation_player.play(animation_name)
+		animation_final_name = animation_name + "Left1"
+		parent.animation_player.play(animation_final_name)
 	else:
-		animation_name = animation_name + "Right1"
-		parent.animation_player.play(animation_name)
+		animation_final_name = animation_name + "Right1"
+		parent.animation_player.play(animation_final_name)
 
 func process_input(event) -> PlayerState:
 	if isAbleToAttack and Input.is_action_just_pressed("attackInput"):
