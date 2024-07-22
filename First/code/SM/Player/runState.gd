@@ -19,11 +19,11 @@ func process_input(event: InputEvent) -> PlayerState:
 			return slide_state
 		else:
 			return crouch_state
-	if isAbleToAttack and Input.is_action_just_pressed("attackInput"):
-		if(isPointingLeft):
-			parent.animation_player.play("attackLeft1")
-		else:
-			parent.animation_player.play("attackRight1")
+	#if isAbleToAttack and Input.is_action_just_pressed("attackInput"):
+		#if(isPointingLeft):
+			#parent.animation_player.play("attackLeft1")
+		#else:
+			#parent.animation_player.play("attackRight1")
 	return null
 
 func process_physics(delta) -> PlayerState:
@@ -43,6 +43,6 @@ func exit(next_state):
 		parent.coyote_timer.start()
 		isInCoyoteTime = true
 
-func animation_finished(anim_name: String) -> PlayerState:
+func animation_finished(anim: String) -> PlayerState:
 	#print("finished")
 	return self

@@ -6,13 +6,13 @@ var jump_speed: float = -320
 
 func enter():
 	if !isAbleToDoubleJump:
-		var animation_name
+		var animation_final_name
 		if(isPointingLeft):
-			animation_name = animation_name_left + "2"
-			parent.animation_player.play(animation_name)
+			animation_final_name = animation_name + "Left2"
+			parent.animation_player.play(animation_final_name)
 		else:
-			animation_name = animation_name_right + "2"
-			parent.animation_player.play(animation_name)
+			animation_final_name = animation_name + "Right2"
+			parent.animation_player.play(animation_final_name)
 	else:
 		super()
 	parent.velocity.y = jump_speed
