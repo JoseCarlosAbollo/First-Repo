@@ -6,12 +6,10 @@ func enter():
 	isAbleToAttack = false
 	var animation_name
 	if(isPointingLeft):
-		animation_name = animation_name_left + '1'
-		#animation_name = animation_name_left + str(attackComboNumber)
+		animation_name = animation_name + "Left1"
 		parent.animation_player.play(animation_name)
 	else:
-		animation_name = animation_name_right + '1'
-		#animation_name = animation_name_right + str(attackComboNumber)
+		animation_name = animation_name + "Right1"
 		parent.animation_player.play(animation_name)
 
 func process_input(event) -> PlayerState:

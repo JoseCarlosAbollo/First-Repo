@@ -2,8 +2,7 @@ class_name PlayerState
 extends Node
 
 var parent: CharacterBody2D
-@export var animation_name_left: String
-@export var animation_name_right: String
+@export var animation_name: String
 static var baseSpeed: float = 200
 static var inputSpeed: float = 0
 static var direction: float = 0.0
@@ -20,10 +19,10 @@ static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func enter() -> void:
 	if isPointingLeft:
-		parent.animation_player.play(animation_name_left)
+		parent.animation_player.play(animation_name + "Left")
 		parent.orientation_left.scale.x = 1
 	else:
-		parent.animation_player.play(animation_name_right)
+		parent.animation_player.play(animation_name + "Right")
 		parent.orientation_left.scale.x = -1
 
 func process_input(event: InputEvent) -> PlayerState:

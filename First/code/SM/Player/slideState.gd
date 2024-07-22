@@ -35,7 +35,7 @@ func exit(next_state):
 	moveIsUnlocked.emit()
 	pass
 
-func animation_finished(animation_name) -> PlayerState:
+func animation_finished(anim) -> PlayerState:
 	if !isAbleToStand:
 		return crouchIdle_state
 	else:

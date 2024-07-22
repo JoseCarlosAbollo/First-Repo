@@ -685,8 +685,7 @@ jump_state = NodePath("../Jump")
 fall_state = NodePath("../Fall")
 crouchIdle_state = NodePath("../CrouchIdle")
 attack_state = NodePath("../Attack")
-animation_name_left = "idleLeft"
-animation_name_right = "idleRight"
+animation_name = "idle"
 
 [node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state", "fall_state", "crouch_state", "slide_state", "attack_state")]
 script = ExtResource("18_abish")
@@ -696,22 +695,19 @@ fall_state = NodePath("../Fall")
 crouch_state = NodePath("../Crouch")
 slide_state = NodePath("../Slide")
 attack_state = NodePath("../Attack")
-animation_name_left = "runLeft"
-animation_name_right = "runRight"
+animation_name = "run"
 
 [node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state")]
 script = ExtResource("19_omwp3")
 fall_state = NodePath("../Fall")
-animation_name_left = "jumpLeft"
-animation_name_right = "jumpRight"
+animation_name = "jump"
 
 [node name="Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("land_state", "run_state", "jump_state")]
 script = ExtResource("20_aulik")
 land_state = NodePath("../Land")
 run_state = NodePath("../Run")
 jump_state = NodePath("../Jump")
-animation_name_left = "fallLeft"
-animation_name_right = "fallRight"
+animation_name = "fall"
 
 [node name="Land" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "run_state", "jump_state", "crouchIdle_state", "fall_state", "attack_state")]
 script = ExtResource("23_3g08m")
@@ -721,8 +717,7 @@ jump_state = NodePath("../Jump")
 crouchIdle_state = NodePath("../CrouchIdle")
 fall_state = NodePath("../Fall")
 attack_state = NodePath("../Attack")
-animation_name_left = "landLeft"
-animation_name_right = "landRight"
+animation_name = "land"
 
 [node name="CrouchIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "jump_state", "crouch_state", "fall_state")]
 script = ExtResource("24_pem10")
@@ -730,8 +725,7 @@ idle_state = NodePath("../Idle")
 jump_state = NodePath("../Jump")
 crouch_state = NodePath("../Crouch")
 fall_state = NodePath("../Fall")
-animation_name_left = "crouchIdleLeft"
-animation_name_right = "crouchIdleRight"
+animation_name = "crouchIdle"
 
 [node name="Crouch" type="Node" parent="StateMachine" node_paths=PackedStringArray("crouchIdle_state", "jump_state", "run_state", "fall_state")]
 script = ExtResource("25_3xyl7")
@@ -739,14 +733,12 @@ crouchIdle_state = NodePath("../CrouchIdle")
 jump_state = NodePath("../Jump")
 run_state = NodePath("../Run")
 fall_state = NodePath("../Fall")
-animation_name_left = "crouchLeft"
-animation_name_right = "crouchRight"
+animation_name = "crouch"
 
 [node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
 script = ExtResource("10_7pjg7")
 idle_state = NodePath("../Idle")
-animation_name_left = "attackLeft"
-animation_name_right = "attackRight"
+animation_name = "attack"
 
 [node name="Slide" type="Node" parent="StateMachine" node_paths=PackedStringArray("land_state", "fall_state", "jump_state", "crouchIdle_state")]
 script = ExtResource("11_ebxjx")
@@ -754,8 +746,7 @@ land_state = NodePath("../Land")
 fall_state = NodePath("../Fall")
 jump_state = NodePath("../Jump")
 crouchIdle_state = NodePath("../CrouchIdle")
-animation_name_left = "slideLeft"
-animation_name_right = "slideRight"
+animation_name = "slide"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2(0, -18.6667)
