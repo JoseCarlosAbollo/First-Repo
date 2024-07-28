@@ -6,6 +6,7 @@ extends PlayerState
 @export var crouchIdle_state: PlayerState
 @export var fall_state: PlayerState
 @export var attack_state: PlayerState
+@export var damaged_state: PlayerState
 
 func enter():
 	super()
@@ -34,7 +35,10 @@ func process_physics(delta) -> PlayerState:
 	return null
 
 func process_frame(delta) -> PlayerState:
-	return null
+	if isHit:
+		return damaged_state
+	else:
+		return null
 
 func exit(next_state):
 	if(next_state == fall_state):

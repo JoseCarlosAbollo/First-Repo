@@ -1,27 +1,29 @@
-extends State
+extends EnemyState
 # Export any states that have a transition to/from the new state
-@export var idle_state: State
-@export var attack_state: State
-@export var damaged_state: State
+@export var damaged_state: EnemyState
+
+var triggered = false
 
 func enter():
 	super()
 	# Add the code for ENTER function in the new State
 
-func process_input(event) -> State:
+func process_input(event) -> EnemyState:
 	# Add the code for handling INPUT function in the new State
 	return null
 
-func process_physics(delta) -> State:
+func process_physics(delta) -> EnemyState:
 	if parent.RCright.is_colliding():
 		parent.direction = -1
 		parent.sprite.flip_h = true
 	if parent.RCleft.is_colliding():
 		parent.direction = 1
 		parent.sprite.flip_h = false
+	if parent.hit:
+		return damaged_state
 	return null
 
-func process_frame(delta) -> State:
+func process_frame(delta) -> EnemyState:
 	if parent.hit:
 		return damaged_state
 	else:

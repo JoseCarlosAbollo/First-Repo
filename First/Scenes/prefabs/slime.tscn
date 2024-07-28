@@ -1,9 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://dips6v1kau1h1"]
+[gd_scene load_steps=23 format=3 uid="uid://dips6v1kau1h1"]
 
-[ext_resource type="PackedScene" uid="uid://bprxkhnntmgid" path="res://Scenes/prefabs/enemySM.tscn" id="1_s6v2a"]
 [ext_resource type="Texture2D" uid="uid://crqjde012ej3h" path="res://assets/slime/Spritesheet.png" id="2_6a2t2"]
 [ext_resource type="PackedScene" uid="uid://qrat08xsvua4" path="res://Scenes/prefabs/killzone.tscn" id="2_guvg1"]
 [ext_resource type="Script" path="res://code/SM/Enemies/Slime/slime.gd" id="2_wgq8c"]
+[ext_resource type="Script" path="res://code/SM/Enemies/enemySM.gd" id="4_8dmgh"]
+[ext_resource type="Script" path="res://code/SM/Enemies/Slime/dormantState.gd" id="5_g258x"]
+[ext_resource type="Script" path="res://code/SM/Enemies/Slime/awakeState.gd" id="6_1mhvt"]
+[ext_resource type="Script" path="res://code/SM/Enemies/Slime/idleState.gd" id="7_83d6w"]
+[ext_resource type="Script" path="res://code/SM/Enemies/Slime/deathState.gd" id="8_rfbgi"]
+[ext_resource type="Script" path="res://code/SM/Enemies/Slime/attackState.gd" id="9_qbclb"]
+[ext_resource type="Script" path="res://code/SM/Enemies/Slime/damagedState.gd" id="10_1fcwq"]
 
 [sub_resource type="Animation" id="Animation_a3522"]
 length = 0.001
@@ -18,6 +24,34 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_unto7"]
+resource_name = "aggro"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
 }
 
 [sub_resource type="Animation" id="Animation_6wb36"]
@@ -50,6 +84,34 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [5, 6]
+}
+
+[sub_resource type="Animation" id="Animation_0i8tv"]
+resource_name = "death"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [6, 2, 1, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_w01xw"]
@@ -87,8 +149,10 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_02uju"]
 _data = {
 "RESET": SubResource("Animation_a3522"),
+"aggro": SubResource("Animation_unto7"),
 "awake": SubResource("Animation_6wb36"),
 "damaged": SubResource("Animation_cwhxb"),
+"death": SubResource("Animation_0i8tv"),
 "dormant": SubResource("Animation_w01xw"),
 "idle": SubResource("Animation_uvokv")
 }
@@ -123,8 +187,39 @@ func isEnemyHitBox():
 [node name="Slime" type="CharacterBody2D"]
 script = ExtResource("2_wgq8c")
 
-[node name="SM" parent="." instance=ExtResource("1_s6v2a")]
-starting_state_name = "Dormant"
+[node name="SM" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("4_8dmgh")
+starting_state = NodePath("Dormant")
+
+[node name="Dormant" type="Node" parent="SM" node_paths=PackedStringArray("awake_state")]
+script = ExtResource("5_g258x")
+awake_state = NodePath("../Awake")
+animation_name = "dormant"
+
+[node name="Awake" type="Node" parent="SM" node_paths=PackedStringArray("idle_state")]
+script = ExtResource("6_1mhvt")
+idle_state = NodePath("../Idle")
+animation_name = "awake"
+
+[node name="Idle" type="Node" parent="SM" node_paths=PackedStringArray("damaged_state")]
+script = ExtResource("7_83d6w")
+damaged_state = NodePath("../Damaged")
+animation_name = "idle"
+
+[node name="Attack" type="Node" parent="SM" node_paths=PackedStringArray("idle_state")]
+script = ExtResource("9_qbclb")
+idle_state = NodePath("../Idle")
+animation_name = "attack"
+
+[node name="Damaged" type="Node" parent="SM" node_paths=PackedStringArray("idle_state", "death_state")]
+script = ExtResource("10_1fcwq")
+idle_state = NodePath("../Idle")
+death_state = NodePath("../Death")
+animation_name = "damaged"
+
+[node name="Death" type="Node" parent="SM"]
+script = ExtResource("8_rfbgi")
+animation_name = "death"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -140,6 +235,7 @@ vframes = 3
 [node name="RCright" type="RayCast2D" parent="."]
 position = Vector2(0, -12)
 target_position = Vector2(8, 0)
+collision_mask = 16
 collide_with_areas = true
 collide_with_bodies = false
 
@@ -147,6 +243,7 @@ collide_with_bodies = false
 position = Vector2(0, -12)
 rotation = 1.5708
 target_position = Vector2(0, 8)
+collision_mask = 16
 collide_with_areas = true
 collide_with_bodies = false
 
@@ -156,10 +253,10 @@ collide_with_bodies = false
 position = Vector2(0, -6.5)
 shape = SubResource("RectangleShape2D_typud")
 
-[node name="spawnArea" type="Area2D" parent="."]
+[node name="WakeArea" type="Area2D" parent="."]
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WakeArea"]
 position = Vector2(0, -10)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_maewc")
@@ -172,4 +269,5 @@ shape = SubResource("RectangleShape2D_j5jfg")
 script = SubResource("GDScript_3gur3")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="body_shape_entered" from="spawnArea" to="." method="_on_spawn_area_body_shape_entered"]
+[connection signal="body_shape_entered" from="WakeArea" to="." method="_on_spawn_area_body_shape_entered"]
+[connection signal="area_entered" from="HitboxArea" to="SM/Idle" method="_on_hitbox_area_area_entered"]

@@ -1,17 +1,14 @@
 extends Node
 
-@export var starting_state_name: String
-@onready var starting_state: State
-var current_state: State
+@export var starting_state: EnemyState
+var current_state: EnemyState
 
 func init(parent: CharacterBody2D) -> void:
 	for child in get_children(): # If this fails, make sure no child is without implementation
-		if child.name == starting_state_name:
-			starting_state = child
 		child.parent = parent
 	change_state(starting_state)
 
-func change_state(new_state: State) -> void:
+func change_state(new_state: EnemyState) -> void:
 	if current_state:
 		current_state.exit(new_state)
 	current_state = new_state

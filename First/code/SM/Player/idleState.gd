@@ -6,6 +6,7 @@ extends PlayerState
 @export var fall_state: PlayerState
 @export var crouchIdle_state: PlayerState
 @export var attack_state: PlayerState
+@export var damaged_state: PlayerState
 
 func enter() -> void:
 	super()
@@ -33,9 +34,13 @@ func process_physics(delta: float) -> PlayerState:
 	return null
 
 func process_frame(delta: float) -> PlayerState:
-	return null
+	if isHit:
+		return damaged_state
+	else:
+		return null
 
 func exit(next_state) -> void:
 	if(next_state == fall_state):
 		isInCoyoteTime = true
 		parent.coyote_timer.start()
+
