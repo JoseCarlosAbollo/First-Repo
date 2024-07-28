@@ -6,6 +6,7 @@ extends PlayerState
 @export var crouch_state: PlayerState
 @export var slide_state: PlayerState
 @export var attack_state: PlayerState
+@export var damaged_state: PlayerState
 
 func enter():
 	super()
@@ -15,7 +16,7 @@ func process_input(event: InputEvent) -> PlayerState:
 	if Input.is_action_just_pressed("jumpInput"):
 		return jump_state
 	if Input.is_action_just_pressed("crouchInput"):
-		if parent.velocity.x != 0:
+		if parent.velocity.x != 0 and !parent.is_on_wall():
 			return slide_state
 		else:
 			return crouch_state
@@ -30,13 +31,15 @@ func process_physics(delta) -> PlayerState:
 	player_move(delta)
 	if inputSpeed == 0:
 		return idle_state
-	if !parent.is_on_floor():
+	if !parent.is_on_floor() and !parent.is_on_wall():
 		return fall_state
 	return null
 
 func process_frame(delta) -> PlayerState:
-	# Add the code for handling FRAME UPDATES in the new PlayerState
-	return null
+	if isHit:
+		return damaged_state
+	else:
+		return null
 
 func exit(next_state):
 	if(next_state == fall_state):

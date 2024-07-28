@@ -1,6 +1,7 @@
 extends PlayerState
 # Export any states that have a transition to/from the new state
 @export var idle_state: PlayerState
+@export var damaged_state: PlayerState
 
 func enter():
 	isAbleToAttack = false
@@ -22,8 +23,10 @@ func process_physics(delta) -> PlayerState:
 	return null
 
 func process_frame(delta) -> PlayerState:
-	# Add the code for handling FRAME UPDATES in the new PlayerState
-	return null
+	if isHit:
+		return damaged_state
+	else:
+		return null
 
 func ableToAttack():
 	#print("IS ABLE")

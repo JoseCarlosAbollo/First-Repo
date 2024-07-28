@@ -4,15 +4,12 @@ extends PlayerState
 @export var fall_state: PlayerState
 @export var jump_state: PlayerState
 @export var crouchIdle_state: PlayerState
-
-signal moveIsLocked
-signal moveIsUnlocked
+@export var damaged_state: PlayerState
 
 func enter():
 	super()
 	set_low_profile()
 	isAbleToMove = false
-	moveIsLocked.emit()
 
 func process_input(event) -> PlayerState:
 	if Input.is_action_just_pressed("jumpInput"):
@@ -27,12 +24,13 @@ func process_physics(delta) -> PlayerState:
 	return null
 
 func process_frame(delta) -> PlayerState:
-	# Add the code for handling FRAME UPDATES in the new PlayerState
-	return null
+	if isHit:
+		return damaged_state
+	else:
+		return null
 
 func exit(next_state):
 	isAbleToMove = true
-	moveIsUnlocked.emit()
 	pass
 
 func animation_finished(anim) -> PlayerState:

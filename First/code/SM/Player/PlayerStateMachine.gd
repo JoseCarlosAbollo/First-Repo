@@ -33,3 +33,7 @@ func animation_finished(anim_name: String):
 	var new_state = current_state.animation_finished(anim_name)
 	if new_state:
 		change_state(new_state)
+
+func _on_hb_area_entered(area):
+	if !current_state.isHit and area.is_in_group("killzone") :
+		current_state.player_damaged(1.5, area.get_global_position())

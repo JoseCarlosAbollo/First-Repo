@@ -15,15 +15,15 @@ static var isAbleToDoubleJump: bool = true
 static var isAbleToAttack: bool = true
 static var attackComboNumber: int = 1
 static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
+static var isHit: bool = false
 
 func enter() -> void:
 	if isPointingLeft:
 		parent.animation_player.play(animation_name + "Left")
-		parent.orientation_left.scale.x = 1
+		parent.orientation_node.scale.x = 1
 	else:
 		parent.animation_player.play(animation_name + "Right")
-		parent.orientation_left.scale.x = -1
+		parent.orientation_node.scale.x = -1
 
 func process_input(event: InputEvent) -> PlayerState:
 	return null
@@ -43,13 +43,13 @@ func animation_finished(anim_name: String) -> PlayerState:
 func player_move(delta: float) -> void:
 	if isAbleToMove:
 		inputSpeed = Input.get_axis("leftInput","rightInput") * baseSpeed
-	
 	if inputSpeed > 0:
 		isPointingLeft = false
 	elif inputSpeed < 0:
 		isPointingLeft = true
 	
 	var normal:Vector2 = parent.get_floor_normal()
+	
 	var isClimbingARamp: bool = false
 	if normal.y != -1: # is on a ramp
 		if normal.x < 0 : # ramp up
@@ -75,7 +75,7 @@ func player_move(delta: float) -> void:
 		parent.moveDirectionGizmo.y = parent.floorNormalGizmo.x
 		parent.moveDirectionGizmo.x = -parent.floorNormalGizmo.y
 	
-	if self.to_string().contains("Run") and !isClimbingARamp:
+	if self.name in ["Run", "Slide"] and !isClimbingARamp:
 		parent.velocity = parent.moveDirectionGizmo * baseSpeed
 	else :
 		parent.velocity.x = inputSpeed
@@ -102,3 +102,13 @@ func is_input_left() -> bool:
 func is_input_right() -> bool:
 	return Input.is_action_just_pressed("rightInput") or (Input.is_action_pressed("rightInput") and !Input.is_action_pressed("leftInput"))
 
+func player_damaged(strength:float, sourcePosition:Vector2) -> void:
+	isAbleToMove = false
+	var launchDirection: Vector2 = Vector2(sourcePosition.x - parent.position.x, sourcePosition.y - parent.position.y)
+	if launchDirection.angle() > Vector2.DOWN.angle() and launchDirection.angle() < Vector2.UP.angle():
+		isPointingLeft = false
+	else:
+		isPointingLeft = true
+	parent.velocity = launchDirection * strength * -100
+	parent.move_and_slide()
+	isHit = true
